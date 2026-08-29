@@ -2,4 +2,4 @@ Moose Creek: This section contains a small collection of games that may ultimate
 
 There is also a programming philosophy behind it. Game development is arguably the most encompassing form of software development - a game must accept multiple inputs, track player progress, maintain state and data, and do all of it while responding in real time. It is, in short, an excellent way to learn.
 
-I have also included a javascript quiz app I have developed with Claude, and a set of frequency calculators I worked up during my time with Intelsat. 
+I have also included a javascript quiz app I have developed with Claude, and a set of frequency calculators I worked up during my time with Intelsat. You can view the working apps, here - https://blackbirdx61.github.io/javascript/
