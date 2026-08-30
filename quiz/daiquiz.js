@@ -20,6 +20,19 @@ const QUIZ = [
     a: "Hoisting is JavaScript's behavior of moving declarations to the top of their scope before execution. var declarations are hoisted and initialized as undefined. Function declarations are fully hoisted. let and const are hoisted but remain in a 'temporal dead zone' — accessing them before declaration throws a ReferenceError.",
     img: null
   },
+    {
+    cat: "JS Fundamentals",
+    q: "What is an SDK",
+    a: "An SDK: a Software Development Kit, is a comprehensive bundle of software building tools and resources that allows developers to create applications for a specific platform, operating system, or hardware. Typically containing API's, Documentation, Compliers & Debuggers, and Code Samples.",
+    img: null
+  },
+ {
+  cat: "JS Fundamentals",
+  q: "What is RegEx?",
+  a: "a: `A Regular Expression (RegEx) is a sequence of characters that defines a search pattern. Example: /^\\d{4}-\\d{2}$/ matches YYYY-MM format. ^ = start, \\d{4} = 4 digits, - = dash, \\d{2} = 2 digits, $ = end.`,",
+  img: null
+},
+  
   {
     cat: "JS Fundamentals",
     q: "What is the difference between null and undefined?",
