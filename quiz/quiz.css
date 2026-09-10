@@ -143,6 +143,18 @@ h1 {
   align-items: center;
 }
 
+div.style.whiteSpace = "pre-line"; 
+
+textarea {  
+  /*  Use this instead if you want to preserve all spacing/breaks */
+  white-space: pre-wrap; 
+}
+#qText, #aBox {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+
 button {
   cursor: pointer;
   padding: 9px 18px;
