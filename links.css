@@ -1,0 +1,12 @@
+/* Normal state */
+/* All links inside the main frame */
+#main-frame a:link,
+#main-frame a:visited {
+  color: #90ee90;           /* White */
+  text-decoration: none;
+}
+
+#main-frame a:hover,
+#main-frame a:active {
+  color: #aedefc;           /* Light green */
+}
