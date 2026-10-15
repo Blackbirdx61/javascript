@@ -1,0 +1,1 @@
+**Run it as an app** (no tabs or address bar): make a desktop shortcut with this target: "C:\Program Files\Google\Chrome\Application\chrome.exe" --app=C:\path\to\slideshow.html

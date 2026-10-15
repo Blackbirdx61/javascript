@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Batch File Renamer</title>
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    input, button { padding: 10px; margin: 5px 0; font-size: 16px; width: 100%; box-sizing: border-box; }
+    .box { border: 1px solid #ccc; padding: 15px; margin-top: 15px; background: #f9f9f9; }
+    .row { display: flex; gap: 10px; }
+    .row > div { flex: 1; }
+    #counter { margin-top: 15px; padding: 12px; border: 1px solid #048A81; background: #e0f4f2;
+               font-size: 20px; text-align: center; font-weight: bold; color: #035e58; }
+    #preview { font-family: Consolas, monospace; font-size: 14px; color: #555; }
+  </style>
+</head>
+<body>
+
+  <h2>Vanilla JS Batch Renamer</h2>
+  <button id="selectDir">Select Folder</button>
+  <p id="folderName">No folder selected.</p>
+
+  <div class="box">
+    <label>New base name:</label>
+    <input type="text" id="baseName" placeholder="e.g. Vacation">
+
+    <div class="row">
+      <div>
+        <label>Start number:</label>
+        <input type="number" id="startNum" value="1" min="0">
+      </div>
+      <div>
+        <label>Digits (padding):</label>
+        <input type="number" id="padDigits" value="3" min="1" max="8">
+      </div>
+    </div>
+
+    <p id="preview">Example: Vacation_001.jpg</p>
+
+    <button id="renameBtn" disabled>Rename All Files</button>
+  </div>
+
+  <div id="counter">0 / 0</div>
+
+  <p id="status"></p>
+
+  <script src="renamer.js" defer></script>
+
+</body>
+</html>

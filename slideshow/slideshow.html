@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slideshow</title>
+<style>
+  /* ── Reset and full screen black background ── */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: black;
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── Setup screen ── */
+  #setup {
+    text-align: center;
+  }
+
+  #setup h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #aaa;
+  }
+
+  #setup label {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #222;
+    border: 1px solid #555;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #ccc;
+    transition: background 0.2s;
+  }
+
+  #setup label:hover { background: #333; }
+
+  #folderInput { display: none; }
+
+  #fileCount {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #888;
+  }
+
+  #startBtn {
+    display: none;
+    margin-top: 20px;
+    padding: 12px 32px;
+    background: #048A81;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #startBtn:hover { background: #036d66; }
+
+  /* ── Slideshow screen ── */
+  #slideshow { display: none; width: 100%; height: 100vh; position: relative; }
+
+  #slideImg {
+    width: 100%;
+    height: 100vh;
+    object-fit: contain;  /* show full image, no cropping */
+    display: block;
+  }
+
+  /* ── Controls overlay ── */
+  #controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    border-radius: 30px;
+    opacity: 0;
+    transition: opacity 0.3s;	
+  }
+  #controls:hover { opacity: 1; } 
+ /* #slideshow:hover #controls { opacity: 1; } --*/ 
+
+  #controls button {
+    background: transparent;
+    border: 1px solid #555;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  #controls button:hover { background: #333; }
+
+  #slideCounter {
+    font-size: 13px;
+    color: #aaa;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  #fileName {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: #555;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  #slideshow:hover #fileName { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ── SETUP SCREEN ── -->
+<div id="setup">
+  <h1>📷 Slideshow</h1>
+  <label for="folderInput">📁 Select Image Folder</label>
+  <input type="file" id="folderInput" webkitdirectory accept="image/*">
+  <div id="fileCount">No folder selected</div>
+  <button id="startBtn" onclick="startSlideshow()">▶ Start Slideshow</button>
+  <div style="margin-top:20px; font-size:13px; color:#555;">
+    Keyboard: ← → arrows to navigate &nbsp;|&nbsp; Space to play/pause &nbsp;|&nbsp; Esc to return to setup
+  </div>
+</div>
+
+<!-- ── SLIDESHOW SCREEN ── -->
+<div id="slideshow">
+  <img id="slideImg" src="" alt="">
+  <div id="fileName"></div>
+  <div id="controls">
+    <button onclick="prevSlide()">◀ Prev</button>
+    <button onclick="togglePlay()" id="playBtn">⏸ Pause</button>
+    <button onclick="nextSlide()">Next ▶</button>
+    <span id="slideCounter">1 / 1</span>
+    <button onclick="exitSlideshow()">✕ Exit</button>
+  </div>
+</div>
+
+<script>
+// ── State variables ──
+let images     = [];   // array of image File objects
+let current    = 0;    // index of current image
+let playing    = true; // auto-advance on or off
+let timer      = null; // holds the setInterval reference
+const DELAY    = 4000; // milliseconds between slides (4 seconds)
+
+// ── Step 1: User selects a folder ──
+document.getElementById('folderInput').addEventListener('change', function(e) {
+  // Filter selected files to images only
+  const allFiles = Array.from(e.target.files);
+  images = allFiles
+    .filter(f => f.type.startsWith('image/'))
+    //.sort((a, b) => a.name.localeCompare(b.name)); // sort alphabetically
+	images = allFiles.filter(f => f.type.startsWith('image/'));
+	shuffle(images);
+
+  // Update the count display
+  const countDiv = document.getElementById('fileCount');
+  if (images.length === 0) {
+    countDiv.textContent = 'No image files found in that folder';
+    document.getElementById('startBtn').style.display = 'none';
+  } else {
+    countDiv.textContent = `${images.length} images found`;
+    document.getElementById('startBtn').style.display = 'inline-block';
+  }
+});
+
+// ── Fisher-Yates shuffle ──
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ── Step 2: Start the slideshow ──
+function startSlideshow() {
+  if (images.length === 0) return;
+  current = 0;
+  document.getElementById('setup').style.display     = 'none';
+  document.getElementById('slideshow').style.display = 'block';
+  showSlide(current);
+  startTimer();
+}
+
+// ── Display a slide by index ──
+function showSlide(index) {
+  const img  = document.getElementById('slideImg');
+  const file = images[index];
+
+  // FileReader converts the File object to a data URL the img tag can display
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+
+  // Update counter and filename display
+  document.getElementById('slideCounter').textContent = `${index + 1} / ${images.length}`;
+  document.getElementById('fileName').textContent     = file.name;
+}
+
+// ── Navigate forward ──
+function nextSlide() {
+  current = (current + 1) % images.length; // wrap around to start
+  showSlide(current);
+}
+
+// ── Navigate backward ──
+function prevSlide() {
+  current = (current - 1 + images.length) % images.length; // wrap around to end
+  showSlide(current);
+}
+
+// ── Auto-advance timer ──
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(nextSlide, DELAY);
+}
+
+// ── Play / Pause toggle ──
+function togglePlay() {
+  playing = !playing;
+  document.getElementById('playBtn').textContent = playing ? '⏸ Pause' : '▶ Play';
+  if (playing) {
+    startTimer();
+  } else {
+    clearInterval(timer);
+  }
+}
+
+// ── Exit back to setup ──
+function exitSlideshow() {
+  clearInterval(timer);
+  document.getElementById('slideshow').style.display = 'none';
+  document.getElementById('setup').style.display     = 'block';
+}
+
+// ── Keyboard controls ──
+document.addEventListener('keydown', function(e) {
+  if (document.getElementById('slideshow').style.display === 'none') return;
+  switch(e.key) {
+    case 'ArrowRight': nextSlide();    startTimer(); break;
+    case 'ArrowLeft':  prevSlide();    startTimer(); break;
+    case ' ':          togglePlay();               break;
+    case 'Escape':     exitSlideshow();             break;
+  }
+});
+</script>
+
+</body>
+</html>
