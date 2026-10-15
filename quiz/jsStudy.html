@@ -1,0 +1,1534 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Study Sheet</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d2e;
+    --surface2: #242740;
+    --border: #2e3250;
+    --text: #e2e8f0;
+    --text-muted: #8892a4;
+    --accent: #7c6af7;
+    --accent2: #5eead4;
+    --kw: #c792ea;
+    --str: #c3e88d;
+    --num: #f78c6c;
+    --cmt: #546e7a;
+    --fn: #82aaff;
+    --ty: #ffcb6b;
+    --op: #89ddff;
+    --hl: #ffe082;
+    --pill-bg: #1e3a2f;
+    --pill-fg: #4ade80;
+    --tip-bg: #1a2744;
+    --tip-border: #3b5998;
+    --shame-bg: #2d1b1b;
+    --shame-border: #c0392b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  a { color: var(--accent2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .page-header { text-align: center; padding: 2.5rem 1rem 1.5rem; border-bottom: 1px solid var(--border); }
+  .page-title { font-size: 2rem; font-weight: 700; color: var(--accent); letter-spacing: -0.5px; }
+  .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.4rem; }
+
+  .toc { max-width: 860px; margin: 2rem auto; padding: 0 1rem; }
+  .toc h2 { font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+  .toc ol { columns: 2; column-gap: 2rem; padding-left: 1.5rem; }
+  @media (max-width: 600px) { .toc ol { columns: 1; } }
+  .toc li { margin-bottom: 0.3rem; font-size: 0.85rem; break-inside: avoid; }
+
+  .cards { max-width: 860px; margin: 0 auto; padding: 0 1rem 4rem; }
+
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--accent2); margin: 2.5rem 0 1rem;
+    padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);
+  }
+
+  .qa-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; margin-bottom: 1.25rem; overflow: hidden;
+  }
+  .q-header {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 0.85rem 1rem 0.5rem; background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .q-num {
+    background: var(--accent); color: #fff; font-weight: 700;
+    font-size: 0.78rem; width: 1.8rem; height: 1.8rem; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .q-text { font-weight: 600; font-size: 0.95rem; padding-top: 0.15rem; }
+  .q-text code { background: var(--border); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.88em; }
+
+  .code-inline {
+    font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+    font-size: 0.82rem; line-height: 1.65;
+    background: #0d0f1a; color: #cdd6f4;
+    padding: 0.9rem 1rem; border-bottom: 1px solid var(--border);
+    white-space: pre; overflow-x: auto;
+  }
+  .kw  { color: var(--kw); }
+  .str { color: var(--str); }
+  .num { color: var(--num); }
+  .cmt { color: var(--cmt); font-style: italic; }
+  .fn  { color: var(--fn); }
+  .ty  { color: var(--ty); }
+  .op  { color: var(--op); }
+  .hl  { color: var(--hl); font-weight: 700; }
+
+  .answer-section { padding: 0.85rem 1rem; }
+  .answer-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 0.45rem; display: flex; align-items: center; gap: 0.5rem; }
+  .output-pill { background: var(--pill-bg); color: var(--pill-fg); padding: 0.15em 0.6em; border-radius: 4px; font-family: monospace; font-size: 0.85em; font-weight: 700; }
+  .answer-text { font-size: 0.88rem; color: #b8c4d0; }
+  .answer-text code { background: var(--border); padding: 0.1em 0.4em; border-radius: 4px; font-size: 0.88em; color: var(--text); }
+  .answer-text strong { color: var(--text); }
+
+  .tip { margin-top: 0.6rem; background: var(--tip-bg); border-left: 3px solid var(--tip-border); padding: 0.5rem 0.75rem; border-radius: 0 6px 6px 0; font-size: 0.83rem; color: #93a8d0; }
+  .hall-of-shame { margin-top: 0.6rem; background: var(--shame-bg); border-left: 3px solid var(--shame-border); padding: 0.5rem 0.75rem; border-radius: 0 6px 6px 0; font-size: 0.83rem; color: #d08080; }
+  .hall-of-shame .label { font-weight: 700; margin-bottom: 0.25rem; }
+
+  hr.section-divider { border: none; border-top: 2px solid var(--border); margin: 3rem 0; }
+
+  .cheatsheet { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.25rem 1rem; margin-bottom: 1.5rem; }
+  .cheatsheet h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent2); margin-bottom: 1rem; }
+  .cs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.5rem; }
+  .cs-row { display: flex; gap: 0.5rem; align-items: baseline; }
+  .cs-code { font-family: monospace; font-size: 0.8rem; color: var(--fn); min-width: 130px; }
+  .cs-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+  .solid-row { margin-bottom: 1.1rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .solid-name { font-weight: 700; color: var(--text); padding: 0.55rem 0.85rem 0.2rem; background: var(--surface2); }
+  .solid-letter { display: inline-block; width: 1.5rem; color: var(--accent2); font-size: 1.05rem; }
+  .solid-desc { font-size: 0.85rem; color: #b8c4d0; padding: 0.2rem 0.85rem 0.6rem; background: var(--surface2); border-bottom: 1px solid var(--border); }
+  .solid-desc strong { color: var(--text); }
+  .solid-row .code-inline { border-bottom: none; }
+
+  .page-footer { text-align: center; padding: 2rem; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="page-title">JavaScript</div>
+  <div class="subtitle">Study Sheet · Udemy Q01, Q02, Q21 &amp; Q22 · 81 Questions</div>
+</div>
+
+<div class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#q1">typeof null === "object"</a></li>
+    <li><a href="#q2">== vs === coercion</a></li>
+    <li><a href="#q3">var hoisting — undefined</a></li>
+    <li><a href="#q4">IIFE — immediately invoked</a></li>
+    <li><a href="#q5">Closure — counter factory</a></li>
+    <li><a href="#q6">Promise.all() output order</a></li>
+    <li><a href="#q7">Array destructuring swap</a></li>
+    <li><a href="#q8">NaN === NaN is false</a></li>
+    <li><a href="#q9">Spread copies shallowly</a></li>
+    <li><a href="#q10">async/await error catch</a></li>
+    <li><a href="#q11">for…of vs for…in</a></li>
+    <li><a href="#q12">Prototype chain lookup</a></li>
+    <li><a href="#q13">typeof undefined</a></li>
+    <li><a href="#q14">Array.from() use cases</a></li>
+    <li><a href="#q15">Optional chaining (?.) </a></li>
+    <li><a href="#q16">Nullish coalescing (??)</a></li>
+    <li><a href="#q17">Map vs Object</a></li>
+    <li><a href="#q18">WeakMap — GC friendly</a></li>
+    <li><a href="#q19">Generator function*</a></li>
+    <li><a href="#q20">Proxy — intercept ops</a></li>
+    <li><a href="#q21">Symbol.iterator</a></li>
+    <li><a href="#q22">Tagged template literals</a></li>
+    <li><a href="#q23">Object.keys / values / entries</a></li>
+    <li><a href="#q24">Currying — partial apply</a></li>
+    <li><a href="#q25">Memoization pattern</a></li>
+    <li><a href="#q26">Event emitter pattern</a></li>
+    <li><a href="#q27">Debounce vs throttle</a></li>
+    <li><a href="#q28">Microtask vs macrotask</a></li>
+    <li><a href="#q29">Array flat() and flatMap()</a></li>
+    <li><a href="#q30">Logical assignment ??= ||= &amp;&amp;=</a></li>
+    <li><a href="#q31">Object.create() prototype</a></li>
+    <li><a href="#q32">Reflect API basics</a></li>
+    <li><a href="#q33">structuredClone()</a></li>
+    <li><a href="#q34">import() dynamic</a></li>
+    <li><a href="#q35">AbortController fetch cancel</a></li>
+    <li><a href="#q36">Regex — named groups</a></li>
+    <li><a href="#q37">Error types — which is which</a></li>
+    <li><a href="#q38">while + break — how many runs?</a></li>
+    <li><a href="#q39">filter() — count even numbers</a></li>
+    <li><a href="#q40">String reverse — split/reverse/join</a></li>
+    <li><a href="#q41">Event bubbling — target to root</a></li>
+    <li><a href="#q42">Closure factory — createMultiplier</a></li>
+    <li><a href="#q43">setTimeout() — executes once after delay</a></li>
+    <li><a href="#q44">parseInt() — "ee5" vs "5ee"</a></li>
+    <li><a href="#q45">concat() reference trap</a></li>
+    <li><a href="#q46">CORS — Cross-Origin Resource Sharing</a></li>
+    <li><a href="#q47">let scope — block scoped</a></li>
+    <li><a href="#q48">localStorage — persists after close</a></li>
+    <li><a href="#q49">Hoisting output — undefined then 2</a></li>
+    <li><a href="#q50">Event delegation — parent listener</a></li>
+    <li><a href="#q51">== vs === with 0 and false</a></li>
+    <li><a href="#q52">Shallow copy — shared references</a></li>
+    <li><a href="#q53">this — execution context</a></li>
+    <li><a href="#q54">Fetch API — HTTP requests</a></li>
+    <li><a href="#q55">Default params — undefined triggers default</a></li>
+    <li><a href="#q56">event.preventDefault()</a></li>
+    <li><a href="#q57">Event loop — JS concurrency model</a></li>
+    <li><a href="#q58">Operator precedence — 3 + 4 * 2</a></li>
+    <li><a href="#q59">Duplicate object keys — last wins</a></li>
+    <li><a href="#q60">Array reference equality</a></li>
+    <li><a href="#q61">Deep copy — no shared references</a></li>
+    <li><a href="#q62">Symbol — never use new Symbol()</a></li>
+    <li><a href="#q63">document.createElement()</a></li>
+    <li><a href="#q64">Regular function vs arrow — this binding</a></li>
+    <li><a href="#q65">arguments object — array-like</a></li>
+    <li><a href="#q66">Destructuring with rename</a></li>
+    <li><a href="#q67">Object.freeze() — immutable</a></li>
+    <li><a href="#q68">[] == ![] → true (landmine)</a></li>
+    <li><a href="#q69">return + line break — ASI → undefined</a></li>
+    <li><a href="#q70">Top-level let — reassign vs shadow</a></li>
+    <li><a href="#q71">SOLID — five design principles</a></li>
+    <li><a href="#q72">rightOfLastDot() — extract file extension</a></li>
+    <li><a href="#q73">right(str, n) — VB Right$() equivalent</a></li>
+    <li><a href="#q74">IEEE 754 — toFixed() string trap</a></li>
+    <li><a href="#q75">Strict mode — what it is, where it goes</a></li>
+    <li><a href="#q76">reduce() — fold function, not just summation</a></li>
+    <li><a href="#q77">Detached method — this lost on a plain call</a></li>
+    <li><a href="#q78">Object literal syntax + destructured methods</a></li>
+    <li><a href="#q79">try/catch vs setTimeout — async errors escape</a></li>
+    <li><a href="#q80">await + try/catch — fulfilled or rejected?</a></li>
+    <li><a href="#q81">Map vs object vs pairs — console brackets</a></li>
+  </ol>
+</div>
+
+<div class="cards">
+
+<div class="section-label">Session 1 — Batch 1 (UdemyQ01 &amp; Q02)</div>
+
+<div class="qa-card" id="q1">
+  <div class="q-header"><div class="q-num">1</div><div class="q-text">What does <code>typeof null</code> return?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="kw">null</span>); <span class="cmt">// "object"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">"object"</span></div><div class="answer-text">A long-standing JavaScript bug. <code>null</code> is a primitive, not an object, but <code>typeof null</code> returns <code>"object"</code> due to a legacy implementation quirk that was never fixed to avoid breaking existing code.<div class="tip">💡 To check for null, use <code>value === null</code> — never rely on <code>typeof</code>.</div></div></div>
+</div>
+
+<div class="qa-card" id="q2">
+  <div class="q-header"><div class="q-num">2</div><div class="q-text">What is the difference between <code>==</code> and <code>===</code>?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="num">1</span>  <span class="op">==</span>  <span class="str">"1"</span>); <span class="cmt">// true  — loose, coerces string to number</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">1</span>  <span class="op">===</span> <span class="str">"1"</span>); <span class="cmt">// false — strict, type mismatch</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0</span>  <span class="op">==</span>  <span class="kw">false</span>); <span class="cmt">// true</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">""</span> <span class="op">==</span>  <span class="kw">false</span>); <span class="cmt">// true</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>==</code> performs type coercion before comparing. <code>===</code> checks type AND value — no coercion. Always prefer <code>===</code>.<div class="tip">💡 The only acceptable use of <code>==</code>: <code>value == null</code> (catches both null and undefined).</div></div></div>
+</div>
+
+<div class="qa-card" id="q3">
+  <div class="q-header"><div class="q-num">3</div><div class="q-text">What does var hoisting produce here?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cmt">// undefined — declaration hoisted, not value</span>
+<span class="kw">var</span> x <span class="op">=</span> <span class="num">5</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cmt">// 5</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">undefined</span> then <span class="output-pill">5</span></div><div class="answer-text"><code>var</code> declarations are hoisted to the top of their scope, but the assignment stays in place. The variable exists but is <code>undefined</code> until the assignment line runs.<div class="tip">💡 <code>let</code> and <code>const</code> are also hoisted but stay in the Temporal Dead Zone — accessing them early throws a ReferenceError.</div></div></div>
+</div>
+
+<div class="qa-card" id="q4">
+  <div class="q-header"><div class="q-num">4</div><div class="q-text">What is an IIFE?</div></div>
+  <div class="code-inline">(<span class="kw">function</span>() {
+    <span class="kw">var</span> secret <span class="op">=</span> <span class="num">42</span>;
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Runs immediately:"</span>, secret);
+})(); <span class="cmt">// () at the end invokes it instantly</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Immediately Invoked Function Expression — a function that runs the moment it's defined. Used to create a private scope and avoid polluting the global namespace.<div class="tip">💡 Pre-ES6 modules used IIFEs heavily. Today you'd use ES modules or block scope with <code>let</code>.</div></div></div>
+</div>
+
+<div class="qa-card" id="q5">
+  <div class="q-header"><div class="q-num">5</div><div class="q-text">Explain this closure — what does counter() return each call?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">makeCounter</span>() {
+    <span class="kw">let</span> count <span class="op">=</span> <span class="num">0</span>;
+    <span class="kw">return</span> () <span class="op">=></span> <span class="op">++</span>count;
+}
+<span class="kw">const</span> counter <span class="op">=</span> <span class="fn">makeCounter</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">counter</span>()); <span class="cmt">// 1</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">counter</span>()); <span class="cmt">// 2</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">counter</span>()); <span class="cmt">// 3</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">1</span> <span class="output-pill">2</span> <span class="output-pill">3</span></div><div class="answer-text">The inner arrow function <em>closes over</em> <code>count</code>. Each call increments and returns the same <code>count</code> variable — it persists in memory as long as <code>counter</code> holds a reference to the inner function.</div></div>
+</div>
+
+<div class="qa-card" id="q6">
+  <div class="q-header"><div class="q-num">6</div><div class="q-text">What does Promise.all() return, and in what order?</div></div>
+  <div class="code-inline"><span class="ty">Promise</span>.<span class="fn">all</span>([
+    <span class="ty">Promise</span>.<span class="fn">resolve</span>(<span class="str">"A"</span>),
+    <span class="ty">Promise</span>.<span class="fn">resolve</span>(<span class="str">"B"</span>),
+    <span class="ty">Promise</span>.<span class="fn">resolve</span>(<span class="str">"C"</span>)
+]).<span class="fn">then</span>(results <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(results));
+<span class="cmt">// ["A", "B", "C"] — order preserved, even if B resolves first</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">["A","B","C"]</span></div><div class="answer-text">Returns a single Promise that resolves with an array of all results <strong>in input order</strong> — regardless of resolution speed. If any Promise rejects, the whole thing rejects immediately.<div class="tip">💡 Use <code>Promise.allSettled()</code> if you need results even when some fail.</div></div></div>
+</div>
+
+<div class="qa-card" id="q7">
+  <div class="q-header"><div class="q-num">7</div><div class="q-text">How does array destructuring swap work?</div></div>
+  <div class="code-inline"><span class="kw">let</span> a <span class="op">=</span> <span class="num">1</span>, b <span class="op">=</span> <span class="num">2</span>;
+[a, b] <span class="op">=</span> [b, a];
+<span class="fn">console</span>.<span class="fn">log</span>(a, b); <span class="cmt">// 2 1</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">2 1</span></div><div class="answer-text">The right-hand side creates a temporary array <code>[2, 1]</code>, then destructuring assigns those values in order to <code>a</code> and <code>b</code>. No temp variable needed.<div class="tip">💡 Classic interview trick — clean, idiomatic JS swap.</div></div></div>
+</div>
+
+<div class="qa-card" id="q8">
+  <div class="q-header"><div class="q-num">8</div><div class="q-text">Why is <code>NaN === NaN</code> false?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="ty">NaN</span> <span class="op">===</span> <span class="ty">NaN</span>);        <span class="cmt">// false — by spec</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="ty">Number</span>.<span class="fn">isNaN</span>(<span class="ty">NaN</span>));    <span class="cmt">// true  — correct test</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">isNaN</span>(<span class="str">"hello"</span>));      <span class="cmt">// true  — older, coerces first</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">false</span></div><div class="answer-text">By IEEE 754 spec, NaN is the only value not equal to itself. Use <code>Number.isNaN()</code> (preferred) or <code>Object.is(val, NaN)</code> to detect it.<div class="hall-of-shame"><div class="label">⚠️ Hall of Shame</div>The old <code>isNaN()</code> coerces strings first — <code>isNaN("hello")</code> is true. Always use <code>Number.isNaN()</code>.</div></div></div>
+</div>
+
+<div class="qa-card" id="q9">
+  <div class="q-header"><div class="q-num">9</div><div class="q-text">What does spread copy — and what does it NOT copy?</div></div>
+  <div class="code-inline"><span class="kw">const</span> original <span class="op">=</span> { <span class="fn">x</span>: <span class="num">1</span>, <span class="fn">nested</span>: { <span class="fn">y</span>: <span class="num">2</span> } };
+<span class="kw">const</span> copy <span class="op">=</span> { <span class="op">...</span>original };
+copy.<span class="fn">x</span> <span class="op">=</span> <span class="num">99</span>;
+copy.<span class="fn">nested</span>.<span class="fn">y</span> <span class="op">=</span> <span class="num">99</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(original.<span class="fn">x</span>);        <span class="cmt">// 1  — primitive, safe</span>
+<span class="fn">console</span>.<span class="fn">log</span>(original.<span class="fn">nested</span>.<span class="fn">y</span>); <span class="cmt">// 99 — shared reference!</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Spread performs a <strong>shallow copy</strong> — top-level primitives are duplicated, but nested objects are still shared by reference. Deep copy requires <code>structuredClone()</code>.</div></div>
+</div>
+
+<div class="qa-card" id="q10">
+  <div class="q-header"><div class="q-num">10</div><div class="q-text">How do you catch errors with async/await?</div></div>
+  <div class="code-inline"><span class="kw">async function</span> <span class="fn">fetchData</span>() {
+    <span class="kw">try</span> {
+        <span class="kw">const</span> res <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"/api/data"</span>);
+        <span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> res.<span class="fn">json</span>();
+        <span class="kw">return</span> data;
+    } <span class="kw">catch</span> (err) {
+        <span class="fn">console</span>.<span class="fn">error</span>(<span class="str">"Failed:"</span>, err.<span class="fn">message</span>);
+    }
+}</div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Wrap <code>await</code> calls in a standard <code>try/catch</code>. The rejected Promise throws an error that the catch block receives — just like synchronous exception handling.<div class="tip">💡 Alternatively, chain <code>.catch()</code> on the returned promise from the async function.</div></div></div>
+</div>
+
+<div class="qa-card" id="q11">
+  <div class="q-header"><div class="q-num">11</div><div class="q-text">What is the difference between for…of and for…in?</div></div>
+  <div class="code-inline"><span class="kw">const</span> arr <span class="op">=</span> [<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>];
+<span class="kw">for</span> (<span class="kw">const</span> val <span class="kw">of</span> arr) { <span class="fn">console</span>.<span class="fn">log</span>(val); } <span class="cmt">// "a" "b" "c" — VALUES</span>
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> arr) { <span class="fn">console</span>.<span class="fn">log</span>(key); } <span class="cmt">// "0" "1" "2" — KEYS (strings!)</span>
+
+<span class="kw">const</span> obj <span class="op">=</span> { <span class="fn">a</span>: <span class="num">1</span>, <span class="fn">b</span>: <span class="num">2</span> };
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> obj) { <span class="fn">console</span>.<span class="fn">log</span>(key); } <span class="cmt">// "a" "b"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>for…of</code> iterates <strong>values</strong> of any iterable (arrays, strings, Sets, Maps). <code>for…in</code> iterates <strong>enumerable property keys</strong> — use it on objects, avoid it on arrays (includes inherited props).<div class="tip">💡 Never use <code>for…in</code> on arrays. Use <code>for…of</code> or <code>.forEach()</code> instead.</div></div></div>
+</div>
+
+<div class="qa-card" id="q12">
+  <div class="q-header"><div class="q-num">12</div><div class="q-text">How does the prototype chain work?</div></div>
+  <div class="code-inline"><span class="kw">const</span> animal <span class="op">=</span> { <span class="fn">breathes</span>: <span class="kw">true</span> };
+<span class="kw">const</span> dog <span class="op">=</span> <span class="ty">Object</span>.<span class="fn">create</span>(animal);
+dog.<span class="fn">barks</span> <span class="op">=</span> <span class="kw">true</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(dog.<span class="fn">barks</span>);   <span class="cmt">// true  — own property</span>
+<span class="fn">console</span>.<span class="fn">log</span>(dog.<span class="fn">breathes</span>); <span class="cmt">// true  — found on prototype</span>
+<span class="fn">console</span>.<span class="fn">log</span>(dog.<span class="fn">flies</span>);    <span class="cmt">// undefined — not found anywhere</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">When a property isn't found on an object, JS looks up the <code>[[Prototype]]</code> chain until it finds the property or reaches <code>null</code> (the end of the chain). This is the foundation of JS inheritance.</div></div>
+</div>
+
+<div class="qa-card" id="q13">
+  <div class="q-header"><div class="q-num">13</div><div class="q-text">What does <code>typeof undefined</code> return?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="kw">undefined</span>); <span class="cmt">// "undefined"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="str">"hello"</span>);    <span class="cmt">// "string"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="num">42</span>);         <span class="cmt">// "number"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="kw">true</span>);       <span class="cmt">// "boolean"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> {});          <span class="cmt">// "object"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> []);          <span class="cmt">// "object" — arrays are objects!</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">typeof</span> <span class="kw">function</span>(){}); <span class="cmt">// "function"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">"undefined"</span></div><div class="answer-text"><code>typeof</code> is one of the few operators safe to use on an undeclared variable. Arrays return <code>"object"</code> — use <code>Array.isArray()</code> to check for arrays.<div class="tip">💡 The seven typeof results: "undefined", "boolean", "number", "bigint", "string", "symbol", "function", "object".</div></div></div>
+</div>
+
+<div class="qa-card" id="q14">
+  <div class="q-header"><div class="q-num">14</div><div class="q-text">What does Array.from() do?</div></div>
+  <div class="code-inline"><span class="ty">Array</span>.<span class="fn">from</span>(<span class="str">"hello"</span>);           <span class="cmt">// ["h","e","l","l","o"]</span>
+<span class="ty">Array</span>.<span class="fn">from</span>({ <span class="fn">length</span>: <span class="num">3</span> }, (_, i) <span class="op">=></span> i); <span class="cmt">// [0, 1, 2]</span>
+<span class="ty">Array</span>.<span class="fn">from</span>(<span class="kw">new</span> <span class="ty">Set</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>])); <span class="cmt">// [1, 2, 3] — deduped</span>
+<span class="cmt">// Converts any iterable or array-like to a real Array</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Creates a new Array from an iterable or array-like object (NodeList, arguments, Set, Map, string). Accepts an optional map function as the second argument.</div></div>
+</div>
+
+<div class="qa-card" id="q15">
+  <div class="q-header"><div class="q-num">15</div><div class="q-text">What does optional chaining (?.) do?</div></div>
+  <div class="code-inline"><span class="kw">const</span> user <span class="op">=</span> { <span class="fn">address</span>: { <span class="fn">city</span>: <span class="str">"Hagerstown"</span> } };
+<span class="fn">console</span>.<span class="fn">log</span>(user<span class="op">?.</span><span class="fn">address</span><span class="op">?.</span><span class="fn">city</span>); <span class="cmt">// "Hagerstown"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(user<span class="op">?.</span><span class="fn">phone</span><span class="op">?.</span><span class="fn">number</span>); <span class="cmt">// undefined — no throw</span>
+<span class="cmt">// Without ?: accessing undefined.number would throw TypeError</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Short-circuits and returns <code>undefined</code> if the left side is <code>null</code> or <code>undefined</code>, instead of throwing a TypeError. Saves deeply nested null checks.<div class="tip">💡 Combine with <code>??</code>: <code>user?.name ?? "Guest"</code> for safe access with fallback.</div></div></div>
+</div>
+
+<div class="qa-card" id="q16">
+  <div class="q-header"><div class="q-num">16</div><div class="q-text">What does the nullish coalescing operator (??) do?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">null</span>      <span class="op">??</span> <span class="str">"default"</span>); <span class="cmt">// "default"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">undefined</span> <span class="op">??</span> <span class="str">"default"</span>); <span class="cmt">// "default"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0</span>         <span class="op">??</span> <span class="str">"default"</span>); <span class="cmt">// 0  — 0 is NOT nullish</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">""</span>        <span class="op">??</span> <span class="str">"default"</span>); <span class="cmt">// "" — empty string is NOT nullish</span>
+<span class="cmt">// vs || : returns right side for ANY falsy value</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Returns the right-hand value only when the left side is <code>null</code> or <code>undefined</code> (nullish). Unlike <code>||</code>, it does NOT treat <code>0</code>, <code>""</code>, or <code>false</code> as missing.<div class="tip">💡 Use <code>??</code> when 0 or empty string are valid values. Use <code>||</code> only when you want to fall back on any falsy value.</div></div></div>
+</div>
+
+<div class="qa-card" id="q17">
+  <div class="q-header"><div class="q-num">17</div><div class="q-text">What is the difference between Map and Object?</div></div>
+  <div class="code-inline"><span class="kw">const</span> map <span class="op">=</span> <span class="kw">new</span> <span class="ty">Map</span>();
+map.<span class="fn">set</span>(<span class="num">42</span>, <span class="str">"number key"</span>);   <span class="cmt">// any type as key</span>
+map.<span class="fn">set</span>({}, <span class="str">"object key"</span>);   <span class="cmt">// objects as keys too</span>
+map.<span class="fn">set</span>(<span class="str">"name"</span>, <span class="str">"Tom"</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(map.<span class="fn">size</span>);        <span class="cmt">// 3 — built-in size</span>
+<span class="fn">console</span>.<span class="fn">log</span>(map.<span class="fn">get</span>(<span class="str">"name"</span>)); <span class="cmt">// "Tom"</span>
+<span class="cmt">// Map preserves insertion order</span>
+<span class="cmt">// Object keys are always strings or Symbols</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Map keys can be <strong>any type</strong>; Object keys are always strings or Symbols. Map has a built-in <code>.size</code> property, preserves insertion order reliably, and has no prototype-inherited properties to worry about.<div class="tip">💡 Use Map when keys aren't strings, when you need to count entries, or when key order matters critically.</div></div></div>
+</div>
+
+<div class="qa-card" id="q18">
+  <div class="q-header"><div class="q-num">18</div><div class="q-text">What is a WeakMap?</div></div>
+  <div class="code-inline"><span class="kw">let</span> user <span class="op">=</span> { <span class="fn">name</span>: <span class="str">"Tom"</span> };
+<span class="kw">const</span> wm <span class="op">=</span> <span class="kw">new</span> <span class="ty">WeakMap</span>();
+wm.<span class="fn">set</span>(user, { <span class="fn">lastSeen</span>: <span class="ty">Date</span>.<span class="fn">now</span>() });
+<span class="fn">console</span>.<span class="fn">log</span>(wm.<span class="fn">get</span>(user)); <span class="cmt">// { lastSeen: ... }</span>
+
+user <span class="op">=</span> <span class="kw">null</span>; <span class="cmt">// original object unreferenced</span>
+<span class="cmt">// Entry is eligible for garbage collection — no memory leak</span>
+<span class="cmt">// WeakMap is NOT iterable — no .size, no .forEach</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">WeakMap holds <strong>weak references</strong> to its object keys — when the key object is garbage collected, the entry disappears automatically. Perfect for storing metadata about objects without preventing GC.<div class="tip">💡 WeakMap keys must be objects. It has no <code>.size</code> and isn't iterable — you can't list its entries. Use it for private data or caches tied to object lifetimes.</div></div></div>
+</div>
+
+<div class="qa-card" id="q19">
+  <div class="q-header"><div class="q-num">19</div><div class="q-text">What is a generator function?</div></div>
+  <div class="code-inline"><span class="kw">function</span><span class="op">*</span> <span class="fn">count</span>() {
+    <span class="kw">yield</span> <span class="num">1</span>;
+    <span class="kw">yield</span> <span class="num">2</span>;
+    <span class="kw">yield</span> <span class="num">3</span>;
+}
+<span class="kw">const</span> gen <span class="op">=</span> <span class="fn">count</span>();
+<span class="fn">console</span>.<span class="fn">log</span>(gen.<span class="fn">next</span>()); <span class="cmt">// { value: 1, done: false }</span>
+<span class="fn">console</span>.<span class="fn">log</span>(gen.<span class="fn">next</span>()); <span class="cmt">// { value: 2, done: false }</span>
+<span class="fn">console</span>.<span class="fn">log</span>(gen.<span class="fn">next</span>()); <span class="cmt">// { value: 3, done: false }</span>
+<span class="fn">console</span>.<span class="fn">log</span>(gen.<span class="fn">next</span>()); <span class="cmt">// { value: undefined, done: true }</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">A function that can pause (<code>yield</code>) and resume execution. Returns a Generator object. Each <code>.next()</code> call runs until the next <code>yield</code> and returns <code>{ value, done }</code>.<div class="tip">💡 Generators are great for lazy sequences, infinite ranges, and implementing custom iterators.</div></div></div>
+</div>
+
+<div class="qa-card" id="q20">
+  <div class="q-header"><div class="q-num">20</div><div class="q-text">What does the Proxy object do?</div></div>
+  <div class="code-inline"><span class="kw">const</span> handler <span class="op">=</span> {
+    <span class="fn">get</span>(target, key) {
+        <span class="kw">return</span> key <span class="kw">in</span> target <span class="op">?</span> target[key] : <span class="str">`No key: </span><span class="op">${</span>key<span class="op">}</span><span class="str">`</span>;
+    }
+};
+<span class="kw">const</span> proxy <span class="op">=</span> <span class="kw">new</span> <span class="ty">Proxy</span>({ <span class="fn">name</span>: <span class="str">"Tom"</span> }, handler);
+<span class="fn">console</span>.<span class="fn">log</span>(proxy.<span class="fn">name</span>);  <span class="cmt">// "Tom"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(proxy.<span class="fn">age</span>);   <span class="cmt">// "No key: age"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Proxy intercepts and customizes fundamental operations on an object (get, set, delete, etc.) using <strong>traps</strong>. Used for validation, logging, default values, and reactive frameworks.<div class="tip">💡 Vue 3 uses Proxy under the hood for its reactivity system.</div></div></div>
+</div>
+
+<div class="qa-card" id="q21">
+  <div class="q-header"><div class="q-num">21</div><div class="q-text">What is Symbol.iterator?</div></div>
+  <div class="code-inline"><span class="kw">const</span> range <span class="op">=</span> {
+    <span class="kw">from</span>: <span class="num">1</span>, <span class="kw">to</span>: <span class="num">3</span>,
+    [<span class="ty">Symbol</span>.<span class="fn">iterator</span>]() {
+        <span class="kw">let</span> cur <span class="op">=</span> <span class="kw">this</span>.<span class="kw">from</span>;
+        <span class="kw">const</span> end <span class="op">=</span> <span class="kw">this</span>.<span class="kw">to</span>;
+        <span class="kw">return</span> { <span class="fn">next</span>: () <span class="op">=></span> cur <span class="op"><=</span> end
+            <span class="op">?</span> { <span class="fn">value</span>: cur<span class="op">++</span>, <span class="fn">done</span>: <span class="kw">false</span> }
+            : { <span class="fn">value</span>: <span class="kw">undefined</span>, <span class="fn">done</span>: <span class="kw">true</span> } };
+    }
+};
+<span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> range) <span class="fn">console</span>.<span class="fn">log</span>(n); <span class="cmt">// 1 2 3</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">A well-known Symbol that defines how an object is iterated. Implement it to make any object work with <code>for…of</code>, spread, and destructuring.<div class="tip">💡 Arrays, Strings, Maps, Sets all implement Symbol.iterator natively. You're implementing the same protocol.</div></div></div>
+</div>
+
+<div class="qa-card" id="q22">
+  <div class="q-header"><div class="q-num">22</div><div class="q-text">What are tagged template literals?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">highlight</span>(strings, <span class="op">...</span>values) {
+    <span class="kw">return</span> strings.<span class="fn">reduce</span>((result, str, i) <span class="op">=></span>
+        result <span class="op">+</span> str <span class="op">+</span> (<span class="str">`&lt;b&gt;</span><span class="op">${</span>values[i] <span class="op">??</span> <span class="str">""</span><span class="op">}</span><span class="str">&lt;/b&gt;`</span>), <span class="str">""</span>);
+}
+<span class="kw">const</span> name <span class="op">=</span> <span class="str">"Tom"</span>, role <span class="op">=</span> <span class="str">"Dev"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(highlight<span class="str">`Hello </span><span class="op">${</span>name<span class="op">}</span><span class="str">, you are a </span><span class="op">${</span>role<span class="op">}</span><span class="str">`</span>);
+<span class="cmt">// "Hello &lt;b&gt;Tom&lt;/b&gt;, you are a &lt;b&gt;Dev&lt;/b&gt;"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">A function placed before a template literal receives the string parts and interpolated values as separate arguments. Used in styled-components, GraphQL's <code>gql</code>, sanitization, and i18n.<div class="tip">💡 <code>strings</code> is always one element longer than <code>values</code>. That's why <code>values[i] ?? ""</code> is needed for the last string piece.</div></div></div>
+</div>
+
+<div class="qa-card" id="q23">
+  <div class="q-header"><div class="q-num">23</div><div class="q-text">What do Object.keys(), Object.values(), Object.entries() return?</div></div>
+  <div class="code-inline"><span class="kw">const</span> obj <span class="op">=</span> { <span class="fn">a</span>: <span class="num">1</span>, <span class="fn">b</span>: <span class="num">2</span>, <span class="fn">c</span>: <span class="num">3</span> };
+<span class="ty">Object</span>.<span class="fn">keys</span>(obj);    <span class="cmt">// ["a", "b", "c"]</span>
+<span class="ty">Object</span>.<span class="fn">values</span>(obj);  <span class="cmt">// [1, 2, 3]</span>
+<span class="ty">Object</span>.<span class="fn">entries</span>(obj); <span class="cmt">// [["a",1], ["b",2], ["c",3]]</span>
+
+<span class="cmt">// Transform objects with entries + fromEntries:</span>
+<span class="ty">Object</span>.<span class="fn">fromEntries</span>(
+    <span class="ty">Object</span>.<span class="fn">entries</span>(obj).<span class="fn">map</span>(([k, v]) <span class="op">=></span> [k, v <span class="op">*</span> <span class="num">2</span>])
+); <span class="cmt">// { a: 2, b: 4, c: 6 }</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">All three return arrays of the object's own enumerable properties. The keys/values/entries combo with <code>Object.fromEntries()</code> is the idiomatic way to transform objects.</div></div>
+</div>
+
+<div class="qa-card" id="q24">
+  <div class="q-header"><div class="q-num">24</div><div class="q-text">What is currying?</div></div>
+  <div class="code-inline"><span class="kw">const</span> <span class="fn">add</span> <span class="op">=</span> a <span class="op">=></span> b <span class="op">=></span> a <span class="op">+</span> b;
+<span class="kw">const</span> add5 <span class="op">=</span> <span class="fn">add</span>(<span class="num">5</span>);     <span class="cmt">// partial application — returns fn</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">add5</span>(<span class="num">3</span>));    <span class="cmt">// 8</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">add</span>(<span class="num">2</span>)(<span class="num">3</span>)); <span class="cmt">// 5 — all args at once</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Currying transforms a function with multiple arguments into a chain of single-argument functions. Enables partial application — pre-fill some arguments and get a specialized function back.<div class="tip">💡 Used heavily in functional programming. Libraries like Ramda and lodash/fp curry automatically.</div></div></div>
+</div>
+
+<div class="qa-card" id="q25">
+  <div class="q-header"><div class="q-num">25</div><div class="q-text">What is memoization?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">memoize</span>(fn) {
+    <span class="kw">const</span> cache <span class="op">=</span> <span class="kw">new</span> <span class="ty">Map</span>();
+    <span class="kw">return</span> (<span class="op">...</span>args) <span class="op">=></span> {
+        <span class="kw">const</span> key <span class="op">=</span> <span class="ty">JSON</span>.<span class="fn">stringify</span>(args);
+        <span class="kw">if</span> (cache.<span class="fn">has</span>(key)) <span class="kw">return</span> cache.<span class="fn">get</span>(key);
+        <span class="kw">const</span> result <span class="op">=</span> <span class="fn">fn</span>(<span class="op">...</span>args);
+        cache.<span class="fn">set</span>(key, result);
+        <span class="kw">return</span> result;
+    };
+}</div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Caching the results of expensive function calls and returning the cached value on repeat calls with the same arguments. Trades memory for speed — classic dynamic programming optimization.<div class="tip">💡 Only effective for <strong>pure functions</strong> (same input always produces same output, no side effects).</div></div></div>
+</div>
+
+<div class="qa-card" id="q26">
+  <div class="q-header"><div class="q-num">26</div><div class="q-text">Implement a simple event emitter pattern.</div></div>
+  <div class="code-inline"><span class="kw">class</span> <span class="ty">EventEmitter</span> {
+    <span class="fn">constructor</span>() { <span class="kw">this</span>.<span class="fn">events</span> <span class="op">=</span> {}; }
+    <span class="fn">on</span>(event, cb) {
+        (<span class="kw">this</span>.<span class="fn">events</span>[event] <span class="op">||=</span> []).<span class="fn">push</span>(cb);
+    }
+    <span class="fn">emit</span>(event, <span class="op">...</span>args) {
+        (<span class="kw">this</span>.<span class="fn">events</span>[event] <span class="op">||</span> []).<span class="fn">forEach</span>(cb <span class="op">=></span> <span class="fn">cb</span>(<span class="op">...</span>args));
+    }
+}
+<span class="kw">const</span> ee <span class="op">=</span> <span class="kw">new</span> <span class="ty">EventEmitter</span>();
+ee.<span class="fn">on</span>(<span class="str">"data"</span>, msg <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Got:"</span>, msg));
+ee.<span class="fn">emit</span>(<span class="str">"data"</span>, <span class="str">"hello"</span>); <span class="cmt">// Got: hello</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">The pub/sub pattern — listeners subscribe to named events; the emitter notifies all listeners when an event fires. Node.js's built-in EventEmitter follows this pattern.<div class="tip">💡 Real-world use: decoupling components. The emitter doesn't know who's listening — listeners don't know who emits.</div></div></div>
+</div>
+
+<div class="qa-card" id="q27">
+  <div class="q-header"><div class="q-num">27</div><div class="q-text">What is the difference between debounce and throttle?</div></div>
+  <div class="code-inline"><span class="cmt">// DEBOUNCE: fires AFTER a quiet period</span>
+<span class="kw">function</span> <span class="fn">debounce</span>(fn, ms) {
+    <span class="kw">let</span> timer;
+    <span class="kw">return</span> (<span class="op">...</span>args) <span class="op">=></span> {
+        <span class="fn">clearTimeout</span>(timer);
+        timer <span class="op">=</span> <span class="fn">setTimeout</span>(() <span class="op">=></span> <span class="fn">fn</span>(<span class="op">...</span>args), ms);
+    };
+}
+<span class="cmt">// THROTTLE: fires AT MOST once per interval</span>
+<span class="cmt">// Use debounce for: search input, resize, validation</span>
+<span class="cmt">// Use throttle for: scroll handlers, game loops, mousemove</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><strong>Debounce</strong>: waits until events stop, then fires once. <strong>Throttle</strong>: fires at a fixed rate regardless of how many events occur. Both reduce how often a function runs under rapid input.<div class="tip">💡 Debounce = "wait until they stop typing." Throttle = "fire at most once per 100ms no matter what."</div></div></div>
+</div>
+
+<div class="qa-card" id="q28">
+  <div class="q-header"><div class="q-num">28</div><div class="q-text">What is the difference between microtasks and macrotasks?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"sync 1"</span>);
+<span class="fn">setTimeout</span>(() <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"macrotask"</span>), <span class="num">0</span>);
+<span class="ty">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"microtask"</span>));
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"sync 2"</span>);
+<span class="cmt">// Output: "sync 1", "sync 2", "microtask", "macrotask"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><strong>Microtasks</strong> (Promises, queueMicrotask) run after the current call stack empties, before the next macrotask. <strong>Macrotasks</strong> (setTimeout, setInterval, I/O) run one per event loop iteration.<div class="tip">💡 Priority: call stack → all microtasks → one macrotask → all microtasks → one macrotask…</div></div></div>
+</div>
+
+<div class="qa-card" id="q29">
+  <div class="q-header"><div class="q-num">29</div><div class="q-text">What do flat() and flatMap() do?</div></div>
+  <div class="code-inline">[<span class="num">1</span>, [<span class="num">2</span>, [<span class="num">3</span>, [<span class="num">4</span>]]]].<span class="fn">flat</span>();      <span class="cmt">// [1, 2, [3, [4]]] — depth 1</span>
+[<span class="num">1</span>, [<span class="num">2</span>, [<span class="num">3</span>, [<span class="num">4</span>]]]].<span class="fn">flat</span>(<span class="ty">Infinity</span>); <span class="cmt">// [1, 2, 3, 4]</span>
+
+[<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>].<span class="fn">flatMap</span>(x <span class="op">=></span> [x, x <span class="op">*</span> <span class="num">2</span>]);
+<span class="cmt">// [1, 2, 2, 4, 3, 6] — map then flatten one level</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>flat(depth)</code> flattens nested arrays up to the specified depth (default 1). <code>flatMap(fn)</code> maps then flattens one level — equivalent to <code>.map(fn).flat()</code> but more efficient.<div class="tip">💡 <code>flatMap</code> is useful for producing zero, one, or multiple output elements per input — just return an array from the callback.</div></div></div>
+</div>
+
+<div class="qa-card" id="q30">
+  <div class="q-header"><div class="q-num">30</div><div class="q-text">What do the logical assignment operators do?</div></div>
+  <div class="code-inline"><span class="kw">let</span> a <span class="op">=</span> <span class="kw">null</span>;
+a <span class="op">??=</span> <span class="str">"default"</span>;  <span class="cmt">// a = "default" — assigned because a was nullish</span>
+
+<span class="kw">let</span> b <span class="op">=</span> <span class="num">0</span>;
+b <span class="op">||=</span> <span class="num">42</span>;         <span class="cmt">// b = 42 — assigned because 0 is falsy</span>
+
+<span class="kw">let</span> c <span class="op">=</span> <span class="num">5</span>;
+c <span class="op">&&=</span> c <span class="op">*</span> <span class="num">2</span>;       <span class="cmt">// c = 10 — assigned because c was truthy</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>??=</code> assigns only if nullish. <code>||=</code> assigns only if falsy. <code>&&=</code> assigns only if truthy. Short-circuit — the right side isn't evaluated if the condition isn't met.<div class="tip">💡 These avoid the verbose <code>x = x ?? value</code> pattern. Short-circuit evaluation means the right side only runs when needed.</div></div></div>
+</div>
+
+<div class="qa-card" id="q31">
+  <div class="q-header"><div class="q-num">31</div><div class="q-text">What does Object.create() do?</div></div>
+  <div class="code-inline"><span class="kw">const</span> proto <span class="op">=</span> {
+    <span class="fn">greet</span>() { <span class="kw">return</span> <span class="str">`Hi, I'm </span><span class="op">${</span><span class="kw">this</span>.<span class="fn">name</span><span class="op">}</span><span class="str">`</span>; }
+};
+<span class="kw">const</span> obj <span class="op">=</span> <span class="ty">Object</span>.<span class="fn">create</span>(proto);
+obj.<span class="fn">name</span> <span class="op">=</span> <span class="str">"Tom"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(obj.<span class="fn">greet</span>()); <span class="cmt">// "Hi, I'm Tom"</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="ty">Object</span>.<span class="fn">getPrototypeOf</span>(obj) <span class="op">===</span> proto); <span class="cmt">// true</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Creates a new object with the specified object as its <code>[[Prototype]]</code>. The purest way to set up prototype-based inheritance without constructors or classes.<div class="tip">💡 <code>Object.create(null)</code> creates an object with NO prototype — no inherited methods like <code>toString</code>. Useful for pure hash maps.</div></div></div>
+</div>
+
+<div class="qa-card" id="q32">
+  <div class="q-header"><div class="q-num">32</div><div class="q-text">What is the Reflect API?</div></div>
+  <div class="code-inline"><span class="kw">const</span> obj <span class="op">=</span> { <span class="fn">a</span>: <span class="num">1</span> };
+<span class="ty">Reflect</span>.<span class="fn">get</span>(obj, <span class="str">"a"</span>);              <span class="cmt">// 1 — same as obj.a</span>
+<span class="ty">Reflect</span>.<span class="fn">set</span>(obj, <span class="str">"b"</span>, <span class="num">2</span>);          <span class="cmt">// true — sets obj.b = 2</span>
+<span class="ty">Reflect</span>.<span class="fn">has</span>(obj, <span class="str">"a"</span>);              <span class="cmt">// true — like "a" in obj</span>
+<span class="ty">Reflect</span>.<span class="fn">deleteProperty</span>(obj, <span class="str">"a"</span>);  <span class="cmt">// true — like delete obj.a</span>
+<span class="ty">Reflect</span>.<span class="fn">ownKeys</span>(obj);               <span class="cmt">// ["b"] — own enumerable + symbol</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Reflect provides methods for interceptable JavaScript operations, mirroring Proxy traps. Used alongside Proxy to forward operations to the original target correctly.<div class="tip">💡 <code>Reflect.get(target, key, receiver)</code> is more correct than <code>target[key]</code> inside a Proxy because it handles inheritance chains properly.</div></div></div>
+</div>
+
+<div class="qa-card" id="q33">
+  <div class="q-header"><div class="q-num">33</div><div class="q-text">What does structuredClone() do?</div></div>
+  <div class="code-inline"><span class="kw">const</span> original <span class="op">=</span> {
+    <span class="fn">name</span>: <span class="str">"Tom"</span>,
+    <span class="fn">scores</span>: [<span class="num">95</span>, <span class="num">87</span>],
+    <span class="fn">date</span>: <span class="kw">new</span> <span class="ty">Date</span>()
+};
+<span class="kw">const</span> clone <span class="op">=</span> <span class="fn">structuredClone</span>(original);
+clone.<span class="fn">scores</span>.<span class="fn">push</span>(<span class="num">100</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(original.<span class="fn">scores</span>); <span class="cmt">// [95, 87] — unchanged!</span>
+<span class="cmt">// Also handles: Date, Map, Set, RegExp, ArrayBuffer</span>
+<span class="cmt">// Does NOT handle: functions, class instances, DOM nodes</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Native deep clone — creates a fully independent copy, including nested objects. Handles Date, Map, Set, ArrayBuffer. Replaces the <code>JSON.parse(JSON.stringify())</code> hack for most cases.<div class="tip">💡 Available in all modern browsers and Node.js 17+. Still can't clone functions or DOM nodes.</div></div></div>
+</div>
+
+<div class="qa-card" id="q34">
+  <div class="q-header"><div class="q-num">34</div><div class="q-text">What is dynamic import()?</div></div>
+  <div class="code-inline"><span class="cmt">// Static import — always loaded at startup:</span>
+<span class="kw">import</span> utils <span class="kw">from</span> <span class="str">"./utils.js"</span>;
+
+<span class="cmt">// Dynamic import — loads on demand, returns a Promise:</span>
+<span class="kw">async function</span> <span class="fn">loadChart</span>() {
+    <span class="kw">const</span> { <span class="fn">Chart</span> } <span class="op">=</span> <span class="kw">await</span> <span class="kw">import</span>(<span class="str">"./chart.js"</span>);
+    <span class="kw">new</span> <span class="ty">Chart</span>(<span class="fn">canvas</span>);
+}
+<span class="cmt">// Load only when the user clicks a button, etc.</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Loads a module asynchronously at runtime — returns a Promise. Used for code-splitting: don't pay for code until it's needed. Bundlers (Vite, Webpack) split these into separate chunks automatically.<div class="tip">💡 The expression form <code>import(path)</code> allows dynamic paths — the static form does not.</div></div></div>
+</div>
+
+<div class="qa-card" id="q35">
+  <div class="q-header"><div class="q-num">35</div><div class="q-text">How do you cancel a fetch request?</div></div>
+  <div class="code-inline"><span class="kw">const</span> controller <span class="op">=</span> <span class="kw">new</span> <span class="ty">AbortController</span>();
+<span class="fn">fetch</span>(<span class="str">"/api/slow"</span>, { <span class="fn">signal</span>: controller.<span class="fn">signal</span> })
+    .<span class="fn">then</span>(res <span class="op">=></span> res.<span class="fn">json</span>())
+    .<span class="fn">catch</span>(err <span class="op">=></span> {
+        <span class="kw">if</span> (err.<span class="fn">name</span> <span class="op">===</span> <span class="str">"AbortError"</span>)
+            <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Request cancelled"</span>);
+    });
+<span class="cmt">// Cancel it:</span>
+controller.<span class="fn">abort</span>();</div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Create an <code>AbortController</code>, pass its <code>.signal</code> to <code>fetch()</code>, then call <code>.abort()</code> to cancel. The fetch rejects with an <code>AbortError</code>.<div class="tip">💡 Essential for React effects that start fetches — cancel in the cleanup function to prevent state updates on unmounted components.</div></div></div>
+</div>
+
+<div class="qa-card" id="q36">
+  <div class="q-header"><div class="q-num">36</div><div class="q-text">What are named capture groups in regex?</div></div>
+  <div class="code-inline"><span class="kw">const</span> dateStr <span class="op">=</span> <span class="str">"2024-12-25"</span>;
+<span class="kw">const</span> re <span class="op">=</span> <span class="op">/</span>(?<span class="op">&lt;</span>year<span class="op">&gt;\</span>d{<span class="num">4</span>})-(?<span class="op">&lt;</span>month<span class="op">&gt;\</span>d{<span class="num">2</span>})-(?<span class="op">&lt;</span>day<span class="op">&gt;\</span>d{<span class="num">2</span>})<span class="op">/</span>;
+<span class="kw">const</span> { <span class="fn">year</span>, <span class="fn">month</span>, <span class="fn">day</span> } <span class="op">=</span> dateStr.<span class="fn">match</span>(re).<span class="fn">groups</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(year, month, day); <span class="cmt">// "2024" "12" "25"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Named capture groups (<code>(?&lt;name&gt;...)</code>) let you access matched parts by name instead of by index via the <code>.groups</code> property. Makes complex regex far more readable.<div class="tip">💡 Named groups also work in <code>replace</code>: <code>str.replace(re, "$&lt;year&gt;/$&lt;month&gt;/$&lt;day&gt;")</code>.</div></div></div>
+</div>
+
+<div class="qa-card" id="q37">
+  <div class="q-header"><div class="q-num">37</div><div class="q-text">What are the built-in JavaScript Error types?</div></div>
+  <div class="code-inline"><span class="kw">new</span> <span class="ty">TypeError</span>(<span class="str">"wrong type"</span>);      <span class="cmt">// wrong type, null dereference</span>
+<span class="kw">new</span> <span class="ty">ReferenceError</span>(<span class="str">"not defined"</span>); <span class="cmt">// access undeclared variable</span>
+<span class="kw">new</span> <span class="ty">SyntaxError</span>(<span class="str">"bad syntax"</span>);     <span class="cmt">// usually from eval() or JSON.parse</span>
+<span class="kw">new</span> <span class="ty">RangeError</span>(<span class="str">"out of range"</span>);    <span class="cmt">// invalid array length, etc.</span>
+<span class="kw">new</span> <span class="ty">URIError</span>(<span class="str">"bad URI"</span>);           <span class="cmt">// malformed encodeURIComponent input</span>
+<span class="kw">new</span> <span class="ty">EvalError</span>(<span class="str">"eval problem"</span>);     <span class="cmt">// legacy, rarely seen</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">JS has six built-in error subtypes, all extending <code>Error</code>. <code>TypeError</code> and <code>ReferenceError</code> are the most common in the wild. Create custom errors by extending <code>Error</code>.<div class="tip">💡 In catch blocks: <code>if (err instanceof TypeError)</code> — check the specific type to handle different errors differently.</div></div></div>
+</div>
+
+<div class="qa-card" id="q38">
+  <div class="q-header"><div class="q-num">38</div><div class="q-text">How many times does this while loop run?</div></div>
+  <div class="code-inline"><span class="kw">let</span> i <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">while</span> (<span class="kw">true</span>) {
+    i<span class="op">++</span>;
+    <span class="kw">if</span> (i <span class="op">===</span> <span class="num">3</span>) <span class="kw">break</span>;
+}
+<span class="fn">console</span>.<span class="fn">log</span>(i); <span class="cmt">// 3</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">3</span></div><div class="answer-text">The loop runs 3 times. <code>i</code> increments to 1, 2, 3 — when <code>i === 3</code> the <code>break</code> exits the loop. <code>while(true)</code> is an intentional infinite loop that must be broken out of explicitly.<div class="tip">💡 <code>break</code> exits the innermost loop. <code>continue</code> skips to the next iteration. Both work in while and for loops.</div></div></div>
+</div>
+
+<div class="section-label">Session 2 — Batch 2 (UdemyQ21)</div>
+
+<div class="qa-card" id="q39">
+  <div class="q-header"><div class="q-num">39</div><div class="q-text">What does this code output?</div></div>
+  <div class="code-inline"><span class="kw">const</span> values <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>];
+<span class="kw">const</span> even <span class="op">=</span> values.<span class="fn">filter</span>(val <span class="op">=></span> val <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(even.<span class="fn">length</span>); <span class="cmt">// 2</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">2</span></div><div class="answer-text"><code>filter()</code> keeps only elements where the callback returns true. Even numbers in [1–5] are 2 and 4, so <code>even = [2, 4]</code> → <code>.length</code> is 2.<div class="tip">💡 <code>val % 2 === 0</code> is the classic "is even" test. <code>filter()</code> never mutates the original array.</div></div></div>
+</div>
+
+<div class="qa-card" id="q40">
+  <div class="q-header"><div class="q-num">40</div><div class="q-text">What is the result?</div></div>
+  <div class="code-inline"><span class="kw">const</span> str <span class="op">=</span> <span class="str">"Hello"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(str.<span class="fn">split</span>(<span class="str">""</span>).<span class="fn">reverse</span>().<span class="fn">join</span>(<span class="str">""</span>)); <span class="cmt">// "olleH"</span>
+<span class="cmt">// split("")  → ["H","e","l","l","o"]</span>
+<span class="cmt">// reverse()  → ["o","l","l","e","H"]</span>
+<span class="cmt">// join("")   → "olleH"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">"olleH"</span></div><div class="answer-text">The classic string-reverse idiom: split into chars → reverse the array → join back. Strings have no native <code>.reverse()</code> — you must go through an array.<div class="tip">💡 This is a very common interview question. Know the three-step chain cold.</div></div></div>
+</div>
+
+<div class="qa-card" id="q41">
+  <div class="q-header"><div class="q-num">41</div><div class="q-text">What is Event Bubbling?</div></div>
+  <div class="code-inline"><span class="cmt">// Click on &lt;button&gt; inside &lt;div&gt; inside &lt;body&gt;</span>
+<span class="cmt">// Fires:  button → div → body → html → document (upward)</span>
+document.<span class="fn">addEventListener</span>(<span class="str">'click'</span>, (e) <span class="op">=></span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">'Bubbled to document!'</span>);
+});
+<span class="cmt">// e.stopPropagation() — halts the bubble</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Events start at the <strong>target element</strong> and propagate <strong>upward</strong> through the DOM tree to the root. This is bubbling — the opposite of capture (which travels down).<div class="tip">💡 Use <code>e.stopPropagation()</code> to prevent the event from bubbling further. Foundation of event delegation.</div></div></div>
+</div>
+
+<div class="qa-card" id="q42">
+  <div class="q-header"><div class="q-num">42</div><div class="q-text">What does this code demonstrate?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">createMultiplier</span>(factor) {
+    <span class="kw">return</span> <span class="kw">function</span>(number) {
+        <span class="kw">return</span> number <span class="op">*</span> factor; <span class="cmt">// factor lives in the closure</span>
+    };
+}
+<span class="kw">const</span> double <span class="op">=</span> <span class="fn">createMultiplier</span>(<span class="num">2</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">double</span>(<span class="num">5</span>)); <span class="cmt">// 10</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">10</span></div><div class="answer-text"><strong>Closure</strong> — the inner function "remembers" <code>factor</code> even after <code>createMultiplier</code> has returned. <code>double</code> is a function with <code>factor=2</code> baked in.<div class="tip">💡 Closures enable factory functions, memoization, and module patterns. The remembered variable is wrapped in the closure's scope chain.</div></div></div>
+</div>
+
+<div class="qa-card" id="q43">
+  <div class="q-header"><div class="q-num">43</div><div class="q-text">What is the purpose of setTimeout()?</div></div>
+  <div class="code-inline"><span class="fn">setTimeout</span>(() <span class="op">=></span> {
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Hello after 2s"</span>);
+}, <span class="num">2000</span>);
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"I print first"</span>); <span class="cmt">// synchronous, runs immediately</span>
+<span class="cmt">// Output: "I print first", then "Hello after 2s"</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Executes a callback function <strong>once</strong> after a specified delay (milliseconds). Non-blocking — the delay does not pause execution; synchronous code runs first.<div class="tip">💡 Compare with <code>setInterval()</code> — that repeats indefinitely. <code>setTimeout(fn, 0)</code> still defers to the task queue (see Q57 on the Event Loop).</div></div></div>
+</div>
+
+<div class="qa-card" id="q44">
+  <div class="q-header"><div class="q-num">44</div><div class="q-text">Which function converts a string to an integer?</div></div>
+  <div class="code-inline"><span class="fn">parseInt</span>(<span class="str">"5ee"</span>);     <span class="cmt">// 5   — reads until non-digit, stops</span>
+<span class="fn">parseInt</span>(<span class="str">"ee5"</span>);     <span class="cmt">// NaN — starts with non-digit, no parse</span>
+<span class="fn">parseInt</span>(<span class="str">"3.9"</span>);     <span class="cmt">// 3   — truncates, does NOT round</span>
+<span class="fn">parseInt</span>(<span class="str">"0xFF"</span>, <span class="num">16</span>); <span class="cmt">// 255 — radix argument</span>
+<span class="fn">parseFloat</span>(<span class="str">"3.9"</span>);   <span class="cmt">// 3.9 — keeps decimal</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">parseInt()</span></div><div class="answer-text"><code>parseInt()</code> parses from the left and stops at the first non-numeric character. Starts with a letter → <code>NaN</code>. Always pass a radix (<code>10</code>) to avoid octal surprises in older engines.<div class="tip">💡 <code>parseInt("5abc") = 5</code>, but <code>parseInt("abc5") = NaN</code>. The string must START with a digit.</div></div></div>
+</div>
+
+<div class="qa-card" id="q45">
+  <div class="q-header"><div class="q-num">45</div><div class="q-text">What does concat() do — and what's the hidden trap?</div></div>
+  <div class="code-inline"><span class="kw">const</span> arr1 <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, { <span class="fn">name</span>: <span class="str">"Alice"</span> }];
+<span class="kw">const</span> arr2 <span class="op">=</span> [<span class="num">3</span>, <span class="num">4</span>];
+<span class="kw">const</span> newArr <span class="op">=</span> arr1.<span class="fn">concat</span>(arr2);
+<span class="fn">console</span>.<span class="fn">log</span>(newArr); <span class="cmt">// [1, 2, { name: "Alice" }, 3, 4]</span>
+<span class="fn">console</span>.<span class="fn">log</span>(arr1);   <span class="cmt">// [1, 2, { name: "Alice" }] — unchanged</span>
+
+<span class="cmt">// ⚠️ But objects are shared by reference:</span>
+newArr[<span class="num">2</span>].<span class="fn">name</span> <span class="op">=</span> <span class="str">"Bob"</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(arr1[<span class="num">2</span>].<span class="fn">name</span>); <span class="cmt">// "Bob" — both arrays point to same object</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>concat()</code> creates a new array — the container is new. But nested objects are <strong>shallow-copied</strong>: both arrays hold a reference to the same object.<div class="hall-of-shame"><div class="label">⚠️ Shallow Copy Trap</div>Changing a primitive in <code>newArr</code> is safe. Mutating an object nested inside it affects the original too.</div></div></div>
+</div>
+
+<div class="qa-card" id="q46">
+  <div class="q-header"><div class="q-num">46</div><div class="q-text">What is CORS?</div></div>
+  <div class="code-inline"><span class="cmt">// Cross-Origin Resource Sharing</span>
+<span class="cmt">// Browser blocks requests to a DIFFERENT origin by default:</span>
+<span class="cmt">// Origin = protocol + domain + port</span>
+<span class="cmt">// https://myapp.com → https://api.otherdomain.com ← BLOCKED</span>
+<span class="cmt">// Server opt-in: Access-Control-Allow-Origin: *</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><strong>Cross-Origin Resource Sharing</strong> — a browser security mechanism. By default, browsers block AJAX/fetch requests to a different origin. Servers must explicitly allow cross-origin access via CORS headers.<div class="tip">💡 CORS is enforced by the BROWSER, not the server. The server just signals what it allows. A Node.js script can fetch any URL — it has no CORS restriction.</div></div></div>
+</div>
+
+<div class="qa-card" id="q47">
+  <div class="q-header"><div class="q-num">47</div><div class="q-text">What is the scope of let?</div></div>
+  <div class="code-inline"><span class="kw">if</span> (<span class="kw">true</span>) {
+    <span class="kw">let</span> message <span class="op">=</span> <span class="str">"Hello"</span>;
+    <span class="fn">console</span>.<span class="fn">log</span>(message); <span class="cmt">// "Hello" — fine inside block</span>
+}
+<span class="fn">console</span>.<span class="fn">log</span>(message); <span class="cmt">// ReferenceError — outside block</span>
+
+<span class="cmt">// vs var — leaks out:</span>
+<span class="kw">if</span> (<span class="kw">true</span>) { <span class="kw">var</span> x <span class="op">=</span> <span class="num">10</span>; }
+<span class="fn">console</span>.<span class="fn">log</span>(x); <span class="cmt">// 10 — var escapes the block</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: Block scoped</div><div class="answer-text"><code>let</code> is <strong>block-scoped</strong> — confined to the nearest <code>{}</code>. Access outside throws a ReferenceError. This is what var should have done from the start.</div></div>
+</div>
+
+<div class="qa-card" id="q48">
+  <div class="q-header"><div class="q-num">48</div><div class="q-text">What is localStorage?</div></div>
+  <div class="code-inline"><span class="fn">localStorage</span>.<span class="fn">setItem</span>(<span class="str">"user"</span>, <span class="str">"Tom"</span>);
+<span class="fn">localStorage</span>.<span class="fn">getItem</span>(<span class="str">"user"</span>);    <span class="cmt">// "Tom"</span>
+<span class="fn">localStorage</span>.<span class="fn">removeItem</span>(<span class="str">"user"</span>);
+<span class="fn">localStorage</span>.<span class="fn">clear</span>();             <span class="cmt">// wipe all</span>
+<span class="cmt">// Persists across browser sessions (close/reopen)</span>
+<span class="cmt">// sessionStorage: same API, cleared when tab closes</span>
+<span class="cmt">// Strings only — JSON.stringify/parse for objects</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Browser key-value storage that <strong>persists after the browser is closed</strong>. Origin-scoped (domain-specific). Synchronous and string-only.<div class="tip">💡 <code>sessionStorage</code> disappears when the tab closes. <code>localStorage</code> survives until explicitly cleared. Both store strings — use <code>JSON.stringify/parse</code> for objects.</div></div></div>
+</div>
+
+<div class="qa-card" id="q49">
+  <div class="q-header"><div class="q-num">49</div><div class="q-text">What is the output?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">test</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(a);       <span class="cmt">// undefined — var hoisted, not initialized</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="fn">foo</span>());    <span class="cmt">// 2 — function fully hoisted</span>
+    <span class="kw">var</span> a <span class="op">=</span> <span class="num">1</span>;
+    <span class="kw">function</span> <span class="fn">foo</span>() { <span class="kw">return</span> <span class="num">2</span>; }
+}
+<span class="fn">test</span>();</div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">undefined</span> then <span class="output-pill">2</span></div><div class="answer-text"><code>var a</code> is hoisted (declaration moved up) but its assignment stays in place → <code>undefined</code> at log time. <code>function foo</code> is <strong>fully hoisted</strong> — declaration AND body move up together.<div class="tip">💡 Two different hoisting behaviors in one question. Var: name only. Function declaration: everything. Let/const: hoisted but TDZ → ReferenceError if accessed early.</div></div></div>
+</div>
+
+<div class="qa-card" id="q50">
+  <div class="q-header"><div class="q-num">50</div><div class="q-text">What is Event Delegation?</div></div>
+  <div class="code-inline"><span class="cmt">// Instead of attaching a listener to each child:</span>
+document.<span class="fn">getElementById</span>(<span class="str">"list"</span>).<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) <span class="op">=></span> {
+    <span class="kw">if</span> (e.<span class="fn">target</span>.<span class="fn">tagName</span> <span class="op">===</span> <span class="str">"LI"</span>) {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Clicked: "</span> <span class="op">+</span> e.<span class="fn">target</span>.<span class="fn">textContent</span>);
+    }
+});
+<span class="cmt">// One listener on &lt;ul&gt; handles clicks on ALL &lt;li&gt; children</span>
+<span class="cmt">// Works even for dynamically added children</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Attaching one event listener to a <strong>parent</strong> element to handle events from its children, using bubbling. Efficient and works for dynamic content.<div class="tip">💡 Check <code>e.target</code> to identify which child was clicked. Much better than N listeners on N children — one listener rules them all.</div></div></div>
+</div>
+
+<div class="qa-card" id="q51">
+  <div class="q-header"><div class="q-num">51</div><div class="q-text">What is the result?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0</span> <span class="op">==</span>  <span class="kw">false</span>); <span class="cmt">// true  — both coerce to 0</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="num">0</span> <span class="op">===</span> <span class="kw">false</span>); <span class="cmt">// false — number vs boolean, no coercion</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">true</span> then <span class="output-pill">false</span></div><div class="answer-text">Loose <code>==</code> coerces both sides: <code>false</code> → <code>0</code>, then <code>0 == 0</code> → true. Strict <code>===</code> checks type first — number ≠ boolean, immediately false.<div class="tip">💡 Rule of thumb: always use <code>===</code>. The only sane exception is <code>value == null</code> which catches both null and undefined.</div></div></div>
+</div>
+
+<div class="qa-card" id="q52">
+  <div class="q-header"><div class="q-num">52</div><div class="q-text">What is a shallow copy?</div></div>
+  <div class="code-inline"><span class="kw">const</span> original <span class="op">=</span> { <span class="fn">a</span>: <span class="num">1</span>, <span class="fn">nested</span>: { <span class="fn">b</span>: <span class="num">2</span> } };
+<span class="kw">const</span> shallow <span class="op">=</span> { <span class="op">...</span>original };     <span class="cmt">// spread = shallow copy</span>
+
+shallow.<span class="fn">a</span> <span class="op">=</span> <span class="num">99</span>;                       <span class="cmt">// primitive: safe, original.a still 1</span>
+shallow.<span class="fn">nested</span>.<span class="fn">b</span> <span class="op">=</span> <span class="num">99</span>;                <span class="cmt">// object: SHARED — original.nested.b = 99!</span>
+<span class="fn">console</span>.<span class="fn">log</span>(original.<span class="fn">nested</span>.<span class="fn">b</span>);      <span class="cmt">// 99 — oops</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">A <strong>shallow copy</strong> copies the top-level properties — but nested objects are still shared by reference with the original.<div class="tip">💡 Spread <code>{...obj}</code> and <code>Object.assign()</code> both produce shallow copies. For a deep copy, use <code>structuredClone()</code> (modern) or <code>JSON.parse(JSON.stringify())</code> (legacy workaround).</div></div></div>
+</div>
+
+<div class="qa-card" id="q53">
+  <div class="q-header"><div class="q-num">53</div><div class="q-text">What is the purpose of <code>this</code>?</div></div>
+  <div class="code-inline"><span class="kw">const</span> obj <span class="op">=</span> {
+    <span class="fn">name</span>: <span class="str">"Tom"</span>,
+    <span class="fn">greet</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.<span class="fn">name</span>); <span class="cmt">// "Tom" — this = obj</span>
+    },
+    <span class="fn">greetArrow</span>: () <span class="op">=></span> {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.<span class="fn">name</span>); <span class="cmt">// undefined — arrow inherits outer this</span>
+    }
+};
+obj.<span class="fn">greet</span>();       <span class="cmt">// "Tom"</span>
+obj.<span class="fn">greetArrow</span>(); <span class="cmt">// undefined</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>this</code> refers to the <strong>execution context</strong> — who called the function. In a regular method, <code>this</code> = the object. In an arrow function, <code>this</code> is inherited from the surrounding scope at definition time.<div class="tip">💡 Mental model: regular functions get <code>this</code> from whoever calls them. Arrow functions inherit <code>this</code> at birth and never let go.</div></div></div>
+</div>
+
+<div class="qa-card" id="q54">
+  <div class="q-header"><div class="q-num">54</div><div class="q-text">What is the Fetch API used for?</div></div>
+  <div class="code-inline"><span class="fn">fetch</span>(<span class="str">"https://api.example.com/data"</span>)
+    .<span class="fn">then</span>(res <span class="op">=></span> res.<span class="fn">json</span>())
+    .<span class="fn">then</span>(data <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(data))
+    .<span class="fn">catch</span>(err <span class="op">=></span> <span class="fn">console</span>.<span class="fn">error</span>(err));
+
+<span class="cmt">// or with async/await:</span>
+<span class="kw">const</span> res <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">"https://api.example.com/data"</span>);
+<span class="kw">const</span> data <span class="op">=</span> <span class="kw">await</span> res.<span class="fn">json</span>();</div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">The Fetch API is used for making <strong>asynchronous HTTP requests</strong> to servers. Returns a Promise. Replaced <code>XMLHttpRequest</code> as the modern standard.<div class="tip">💡 <code>fetch()</code> only rejects on network errors — a 404 or 500 still resolves. Always check <code>res.ok</code> or <code>res.status</code> before processing the body.</div></div></div>
+</div>
+
+<div class="qa-card" id="q55">
+  <div class="q-header"><div class="q-num">55</div><div class="q-text">What is the output?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">test</span>(x <span class="op">=</span> <span class="num">1</span>, y <span class="op">=</span> <span class="num">2</span>) {
+    <span class="fn">console</span>.<span class="fn">log</span>(x <span class="op">+</span> y);
+}
+<span class="fn">test</span>(<span class="kw">undefined</span>, <span class="num">3</span>); <span class="cmt">// 4</span>
+<span class="cmt">// undefined → triggers default x=1</span>
+<span class="cmt">// 3 is passed explicitly for y</span>
+<span class="cmt">// 1 + 3 = 4</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">4</span></div><div class="answer-text">Passing <code>undefined</code> for a parameter triggers its default value. <code>null</code> does NOT — it's an explicit value and overrides the default.<div class="tip">💡 <code>undefined</code> = "I didn't pass anything." <code>null</code> = "I intentionally passed nothing." Only <code>undefined</code> triggers defaults.</div></div></div>
+</div>
+
+<div class="qa-card" id="q56">
+  <div class="q-header"><div class="q-num">56</div><div class="q-text">How do you prevent default browser behavior?</div></div>
+  <div class="code-inline"><span class="cmt">// Prevent form submission page reload:</span>
+form.<span class="fn">addEventListener</span>(<span class="str">"submit"</span>, (e) <span class="op">=></span> {
+    e.<span class="fn">preventDefault</span>();       <span class="cmt">// stops the page reload</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"Handled in JS"</span>);
+});
+
+<span class="cmt">// Prevent link navigation:</span>
+link.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, (e) <span class="op">=></span> {
+    e.<span class="fn">preventDefault</span>();       <span class="cmt">// stops navigation</span>
+});</div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">event.preventDefault()</span></div><div class="answer-text">Cancels the browser's default action for an event — prevents form submission navigation, link clicks, right-click menus, etc. Does NOT stop bubbling (that's <code>stopPropagation()</code>).<div class="tip">💡 <code>preventDefault()</code> stops WHAT the browser does. <code>stopPropagation()</code> stops WHERE the event travels. Two different concerns.</div></div></div>
+</div>
+
+<div class="qa-card" id="q57">
+  <div class="q-header"><div class="q-num">57</div><div class="q-text">What is the Event Loop?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"1"</span>);                        <span class="cmt">// sync — runs first</span>
+<span class="ty">Promise</span>.<span class="fn">resolve</span>().<span class="fn">then</span>(() <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"2"</span>)); <span class="cmt">// microtask queue</span>
+<span class="fn">setTimeout</span>(() <span class="op">=></span> <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"3"</span>), <span class="num">0</span>);  <span class="cmt">// task queue (macrotask)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="str">"4"</span>);                        <span class="cmt">// sync — runs second</span>
+<span class="cmt">// Output: 1, 4, 2, 3</span>
+<span class="cmt">// Priority: call stack → microtasks → macrotasks</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">JavaScript's <strong>concurrency model</strong>. JS is single-threaded — the event loop checks if the call stack is empty, then processes queued callbacks. Microtasks (Promises) run before macrotasks (setTimeout).<div class="tip">⚠️ Not the CURRENCY model. Three queues in priority order: call stack (synchronous) → microtask queue (Promises) → task queue (setTimeout, events).</div></div></div>
+</div>
+
+<div class="qa-card" id="q58">
+  <div class="q-header"><div class="q-num">58</div><div class="q-text">What does this evaluate to?</div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>(<span class="num">3</span> <span class="op">+</span> <span class="num">4</span> <span class="op">*</span> <span class="num">2</span>);  <span class="cmt">// 11</span>
+<span class="cmt">// * before + : 4*2=8, then 3+8=11</span>
+<span class="fn">console</span>.<span class="fn">log</span>((<span class="num">3</span> <span class="op">+</span> <span class="num">4</span>) <span class="op">*</span> <span class="num">2</span>); <span class="cmt">// 14 — parens override</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">11</span></div><div class="answer-text">Multiplication has higher precedence than addition — same as in math. <code>4 * 2 = 8</code> first, then <code>3 + 8 = 11</code>. Use parentheses to override.</div></div>
+</div>
+
+<div class="qa-card" id="q59">
+  <div class="q-header"><div class="q-num">59</div><div class="q-text">What is the output?</div></div>
+  <div class="code-inline"><span class="kw">const</span> obj <span class="op">=</span> {
+    <span class="fn">a</span>: <span class="num">1</span>,
+    <span class="fn">b</span>: <span class="num">2</span>,
+    <span class="fn">a</span>: <span class="num">3</span>  <span class="cmt">// duplicate key!</span>
+};
+<span class="fn">console</span>.<span class="fn">log</span>(obj.<span class="fn">a</span>); <span class="cmt">// 3</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">3</span></div><div class="answer-text">Duplicate keys are allowed in JS object literals — the <strong>last one wins</strong>. No error, no warning. The object ends up with one key <code>a</code> with value <code>3</code>.<div class="tip">💡 Strict mode does NOT catch this. TypeScript will catch it. One more reason to use TypeScript in real projects.</div></div></div>
+</div>
+
+<div class="qa-card" id="q60">
+  <div class="q-header"><div class="q-num">60</div><div class="q-text">What is the output?</div></div>
+  <div class="code-inline"><span class="kw">const</span> arr1 <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>];
+<span class="kw">const</span> arr2 <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>];
+<span class="fn">console</span>.<span class="fn">log</span>(arr1 <span class="op">==</span> arr2);  <span class="cmt">// false</span>
+<span class="fn">console</span>.<span class="fn">log</span>(arr1 <span class="op">===</span> arr2); <span class="cmt">// false</span>
+<span class="cmt">// Each array is a new object at a different memory address</span>
+<span class="kw">const</span> arr3 <span class="op">=</span> arr1;
+<span class="fn">console</span>.<span class="fn">log</span>(arr3 <span class="op">===</span> arr1); <span class="cmt">// true — same reference</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">false</span></div><div class="answer-text">Arrays are objects — compared by <strong>reference</strong> (memory address), not content. Two separate array literals are two separate objects, even if they look identical.<div class="tip">💡 To compare array contents: <code>JSON.stringify(arr1) === JSON.stringify(arr2)</code> or loop element-by-element. <code>==</code> and <code>===</code> only check "is this the same object?"</div></div></div>
+</div>
+
+<div class="qa-card" id="q61">
+  <div class="q-header"><div class="q-num">61</div><div class="q-text">What is a deep copy?</div></div>
+  <div class="code-inline"><span class="cmt">// Deep copy — completely independent, no shared references:</span>
+<span class="kw">const</span> original <span class="op">=</span> { <span class="fn">a</span>: <span class="num">1</span>, <span class="fn">nested</span>: { <span class="fn">b</span>: <span class="num">2</span> } };
+
+<span class="cmt">// Modern (ES2022):</span>
+<span class="kw">const</span> deep1 <span class="op">=</span> <span class="fn">structuredClone</span>(original);
+
+<span class="cmt">// Legacy workaround (doesn't handle functions/dates well):</span>
+<span class="kw">const</span> deep2 <span class="op">=</span> <span class="ty">JSON</span>.<span class="fn">parse</span>(<span class="ty">JSON</span>.<span class="fn">stringify</span>(original));
+
+deep1.<span class="fn">nested</span>.<span class="fn">b</span> <span class="op">=</span> <span class="num">99</span>;
+<span class="fn">console</span>.<span class="fn">log</span>(original.<span class="fn">nested</span>.<span class="fn">b</span>); <span class="cmt">// 2 — completely independent</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">A <strong>deep copy</strong> creates a completely independent clone — changes to the copy never affect the original, including nested objects.<div class="tip">💡 Use <code>structuredClone()</code> for modern deep copies. The <code>JSON</code> trick drops <code>undefined</code>, functions, <code>Date</code> objects, and circular references.</div></div></div>
+</div>
+
+<div class="qa-card" id="q62">
+  <div class="q-header"><div class="q-num">62</div><div class="q-text">What is the correct way to create a Symbol?</div></div>
+  <div class="code-inline"><span class="kw">let</span> mySymbol <span class="op">=</span> <span class="fn">Symbol</span>(<span class="str">"description"</span>); <span class="cmt">// ✅ correct</span>
+<span class="kw">let</span> bad <span class="op">=</span> <span class="kw">new</span> <span class="fn">Symbol</span>(<span class="str">"oops"</span>);          <span class="cmt">// ❌ TypeError — not a constructor</span>
+
+<span class="fn">Symbol</span>(<span class="str">"x"</span>) <span class="op">===</span> <span class="fn">Symbol</span>(<span class="str">"x"</span>) <span class="cmt">// false — every call is unique</span>
+
+<span class="cmt">// Use case: unique object keys that never clash:</span>
+<span class="kw">const</span> id <span class="op">=</span> <span class="fn">Symbol</span>(<span class="str">"id"</span>);
+obj[id] <span class="op">=</span> <span class="num">42</span>; <span class="cmt">// won't conflict with a string "id" key</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">Symbol("description")</span></div><div class="answer-text"><code>Symbol</code> is a primitive factory — never use <code>new</code>. Every call creates a 100% unique token even if descriptions match.<div class="tip">💡 Symbol description is just a label for debugging, not a value. Two symbols with the same description are still not equal to each other.</div></div></div>
+</div>
+
+<div class="qa-card" id="q63">
+  <div class="q-header"><div class="q-num">63</div><div class="q-text">How do you create a new HTML element in JavaScript?</div></div>
+  <div class="code-inline"><span class="cmt">// Create and add to the DOM:</span>
+<span class="kw">let</span> newDiv <span class="op">=</span> document.<span class="fn">createElement</span>(<span class="str">"div"</span>);
+newDiv.<span class="fn">textContent</span> <span class="op">=</span> <span class="str">"Hello DOM"</span>;
+newDiv.<span class="fn">className</span> <span class="op">=</span> <span class="str">"my-class"</span>;
+document.<span class="fn">body</span>.<span class="fn">appendChild</span>(newDiv);     <span class="cmt">// attaches to page</span>
+
+<span class="cmt">// Select existing elements:</span>
+document.<span class="fn">getElementById</span>(<span class="str">"myId"</span>);      <span class="cmt">// by id</span>
+document.<span class="fn">querySelector</span>(<span class="str">".myClass"</span>);  <span class="cmt">// CSS selector</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">document.createElement()</span></div><div class="answer-text"><code>document.createElement(tagName)</code> creates a new element in memory. It's not on the page until you append it to the DOM with <code>appendChild()</code> or similar.<div class="tip">💡 Don't forget the append step — created elements are invisible until attached to the document.</div></div></div>
+</div>
+
+<div class="qa-card" id="q64">
+  <div class="q-header"><div class="q-num">64</div><div class="q-text">What type of function has its own <code>this</code> binding?</div></div>
+  <div class="code-inline"><span class="kw">const</span> obj <span class="op">=</span> {
+    <span class="fn">count</span>: <span class="num">10</span>,
+    <span class="fn">doSomething</span>: <span class="kw">function</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.<span class="fn">count</span>); <span class="cmt">// 10 — this = obj at call time</span>
+    },
+    <span class="fn">doAnother</span>: () <span class="op">=></span> {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="kw">this</span>.<span class="fn">count</span>); <span class="cmt">// undefined — this from outer scope</span>
+    }
+};
+obj.<span class="fn">doSomething</span>(); <span class="cmt">// 10</span>
+obj.<span class="fn">doAnother</span>();  <span class="cmt">// undefined</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: Regular function</div><div class="answer-text"><strong>Regular functions</strong> get their own <code>this</code> set at call time (whoever called them). <strong>Arrow functions</strong> have NO own <code>this</code> — they inherit from the surrounding scope at definition time.<div class="tip">💡 Arrow functions don't look at <code>obj</code> for <code>this</code> — they look at where the object literal was written (outer scope). Use regular functions for object methods.</div></div></div>
+</div>
+
+<div class="qa-card" id="q65">
+  <div class="q-header"><div class="q-num">65</div><div class="q-text">What does <code>arguments</code> refer to in a function?</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">logAll</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>(arguments);         <span class="cmt">// Arguments [1, 2, 3]</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(arguments[<span class="num">0</span>]);     <span class="cmt">// 1</span>
+    <span class="fn">console</span>.<span class="fn">log</span>(arguments.<span class="fn">length</span>); <span class="cmt">// 3</span>
+}
+<span class="fn">logAll</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>);
+
+<span class="cmt">// ⚠️ Not available in arrow functions</span>
+<span class="cmt">// Modern alternative: rest params</span>
+<span class="kw">function</span> <span class="fn">sum</span>(<span class="op">...</span>args) { <span class="kw">return</span> args.<span class="fn">reduce</span>((a, b) <span class="op">=></span> a <span class="op">+</span> b); }</div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><code>arguments</code> is an <strong>array-like object</strong> (has indices and <code>.length</code>, but not array methods) containing all values passed to the function — regardless of what parameters were declared.<div class="tip">💡 Not available in arrow functions. Modern code prefers rest parameters (<code>...args</code>) which gives a real array with all array methods.</div></div></div>
+</div>
+
+<div class="qa-card" id="q66">
+  <div class="q-header"><div class="q-num">66</div><div class="q-text">What is the output?</div></div>
+  <div class="code-inline"><span class="kw">const</span> person <span class="op">=</span> { <span class="fn">name</span>: <span class="str">"John"</span>, <span class="fn">age</span>: <span class="num">30</span> };
+<span class="kw">const</span> { <span class="fn">name</span>: firstName } <span class="op">=</span> person;  <span class="cmt">// rename: name → firstName</span>
+<span class="fn">console</span>.<span class="fn">log</span>(firstName);            <span class="cmt">// "John"</span>
+<span class="cmt">// console.log(name);             // ReferenceError — "name" not declared</span>
+
+<span class="cmt">// vs standard destructuring:</span>
+<span class="kw">const</span> { <span class="fn">age</span> } <span class="op">=</span> person;
+<span class="fn">console</span>.<span class="fn">log</span>(age); <span class="cmt">// 30</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">"John"</span></div><div class="answer-text">Destructuring with rename — <code>{ name: firstName }</code> means "pull out the property called <code>name</code>, bind it to local variable <code>firstName</code>." The variable <code>name</code> is never created.<div class="tip">💡 The colon in destructuring means "rename to" — not a type annotation. <code>{ original: newName }</code> = take <code>original</code>, call it <code>newName</code> here.</div></div></div>
+</div>
+
+<div class="qa-card" id="q67">
+  <div class="q-header"><div class="q-num">67</div><div class="q-text">What does Object.freeze() do?</div></div>
+  <div class="code-inline"><span class="kw">const</span> config <span class="op">=</span> <span class="ty">Object</span>.<span class="fn">freeze</span>({ <span class="fn">port</span>: <span class="num">3000</span>, <span class="fn">host</span>: <span class="str">"localhost"</span> });
+config.<span class="fn">port</span> <span class="op">=</span> <span class="num">8080</span>;              <span class="cmt">// silently fails (strict: TypeError)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(config.<span class="fn">port</span>);       <span class="cmt">// 3000 — unchanged</span>
+
+<span class="cmt">// ⚠️ Shallow freeze only — nested objects still mutable:</span>
+<span class="kw">const</span> obj <span class="op">=</span> <span class="ty">Object</span>.<span class="fn">freeze</span>({ <span class="fn">nested</span>: { <span class="fn">x</span>: <span class="num">1</span> } });
+obj.<span class="fn">nested</span>.<span class="fn">x</span> <span class="op">=</span> <span class="num">99</span>;              <span class="cmt">// works! nested not frozen</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Makes the object <strong>immutable</strong> — no adding, deleting, or modifying properties. Mutations silently fail in sloppy mode; throw <code>TypeError</code> in strict mode.<div class="tip">💡 <code>Object.freeze()</code> is shallow — only the top level is frozen. Nested objects can still be mutated. For deep freeze you need a recursive implementation.</div></div></div>
+</div>
+
+<div class="qa-card" id="q68">
+  <div class="q-header"><div class="q-num">68</div><div class="q-text">What is the output? <code>console.log([] == ![])</code></div></div>
+  <div class="code-inline"><span class="fn">console</span>.<span class="fn">log</span>([] <span class="op">==</span> <span class="op">!</span>[]); <span class="cmt">// true</span>
+<span class="cmt">// Step 1: ![] → false  ([] is truthy, ! flips to false)</span>
+<span class="cmt">// Step 2: [] == false</span>
+<span class="cmt">// Step 3: [] converts to "" (array toString), "" converts to 0</span>
+<span class="cmt">// Step 4: false converts to 0</span>
+<span class="cmt">// Step 5: 0 == 0 → true</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">true</span></div><div class="answer-text"><div class="hall-of-shame"><div class="label">💣 JS Landmine</div>This is a perfect storm of JS coercion rules. <code>![]</code> is <code>false</code> because <code>[]</code> is truthy. Then loose equality coerces both sides through multiple type conversions until both become <code>0</code>. This is exactly why <code>===</code> exists.</div></div></div>
+</div>
+
+<div class="section-label">Session 3 — Batch 1 (UdemyQ22)</div>
+
+<div class="qa-card" id="q69">
+  <div class="q-header"><div class="q-num">69</div><div class="q-text">What is the output? <code>return</code> on its own line</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">test</span>() {
+    <span class="kw">return</span>            <span class="cmt">// ⚠️ line break here — ASI inserts ;</span>
+    {
+        name: <span class="str">"John"</span>
+    };
+}
+<span class="fn">console</span>.<span class="fn">log</span>( <span class="fn">test</span>() );   <span class="cmt">// undefined</span>
+
+<span class="cmt">// What the engine actually runs:</span>
+<span class="kw">return</span>;                <span class="cmt">// returns undefined</span>
+{ name: <span class="str">"John"</span> };      <span class="cmt">// dead code — never reached</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">undefined</span></div><div class="answer-text"><strong>Automatic Semicolon Insertion (ASI).</strong> When a line ends right after <code>return</code>, JS inserts a semicolon there, so the function returns <code>undefined</code>. The <code>{ name: "John" }</code> below is never reached. It's parsed as a block with a label inside, not an object, so no error is thrown. It just fails silently.
+<div class="tip">💡 Always put the opening <code>{</code> on the <strong>same line</strong> as <code>return</code>. The same trap applies to <code>break</code>, <code>continue</code> and <code>throw</code>: a line break right after them ends the statement.</div>
+<div class="code-inline" style="margin-top:0.6rem;border:1px solid var(--border);border-radius:6px"><span class="kw">return</span> {                <span class="cmt">// ✅ brace on the return line</span>
+    name: <span class="str">"John"</span>
+};                       <span class="cmt">// → { name: "John" }</span></div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>No error and no warning, just a silent <code>undefined</code>. This is why the "brace on the same line" (K&amp;R) style is the standard in JavaScript: brace placement actually changes behavior here.</div></div></div>
+</div>
+
+<div class="qa-card" id="q70">
+  <div class="q-header"><div class="q-num">70</div><div class="q-text">What is the output? Top-level <code>let</code> reassigned inside a function</div></div>
+  <div class="code-inline"><span class="kw">let</span> x <span class="op">=</span> <span class="num">10</span>;            <span class="cmt">// top level: visible to the whole script</span>
+
+<span class="kw">function</span> <span class="fn">change</span>() {
+    x <span class="op">=</span> <span class="num">20</span>;            <span class="cmt">// no let, so this reassigns the OUTER x</span>
+}
+
+<span class="fn">change</span>();
+<span class="fn">console</span>.<span class="fn">log</span>( x );      <span class="cmt">// 20</span>
+
+<span class="cmt">// Flip it: add let inside the function</span>
+<span class="kw">function</span> <span class="fn">change2</span>() {
+    <span class="kw">let</span> x <span class="op">=</span> <span class="num">99</span>;        <span class="cmt">// NEW local x that shadows the outer one</span>
+}
+<span class="fn">change2</span>();
+<span class="fn">console</span>.<span class="fn">log</span>( x );      <span class="cmt">// still 20, the outer x was never touched</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">20</span></div><div class="answer-text"><code>let</code> is block-scoped, and at the top level the "block" is the whole script. Inside <code>change()</code> there's no <code>let</code>, so no new variable is created: JS looks outward along the scope chain, finds the outer <code>x</code>, and reassigns it. <strong>let looks out but not in.</strong>
+<div class="tip">💡 The keyword is what makes the difference. Leave it off and you reassign the existing outer variable. Put <code>let</code> in front and you create a new local that <em>shadows</em> the outer one and disappears when the function ends.</div>
+<div class="tip">💡 A top-level <code>let</code> lives in <strong>script scope</strong>, not on <code>window</code>. With <code>let x</code> at the top, <code>window.x</code> is <code>undefined</code>. With <code>var x</code> at the top, <code>window.x</code> is <code>10</code>.</div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>Leave out <code>let</code>, <code>const</code> <em>and</em> <code>var</code> with no outer variable of that name, and sloppy mode quietly creates a real global. Strict mode (<code>"use strict"</code>) throws a <code>ReferenceError</code> instead.</div></div></div>
+</div>
+
+<div class="qa-card" id="q71">
+  <div class="q-header"><div class="q-num">71</div><div class="q-text">What does <code>SOLID</code> stand for?</div></div>
+  <div class="code-inline"><span class="hl">S</span>  <span class="cmt">// Single Responsibility Principle</span>
+<span class="hl">O</span>  <span class="cmt">// Open-Closed Principle</span>
+<span class="hl">L</span>  <span class="cmt">// Liskov Substitution Principle</span>
+<span class="hl">I</span>  <span class="cmt">// Interface Segregation Principle</span>
+<span class="hl">D</span>  <span class="cmt">// Dependency Inversion Principle</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">Five design principles for writing code that is easy to maintain, extend and test. Coined by Robert C. Martin ("Uncle Bob"). They come from object-oriented design, but the ideas apply to plain JS functions and modules too.
+<div class="tip">💡 The full name of L is <strong>Liskov <em>Substitution</em> Principle</strong>, after Barbara Liskov. Interviewers sometimes check that you know the whole name. See the <a href="#solid">SOLID breakdown</a> below the break line for each principle with a JS example.</div>
+<div class="tip">💡 Mnemonic: <strong>S</strong>ingle job · <strong>O</strong>pen to extend, closed to edit · <strong>L</strong>iskov swap · <strong>I</strong>nterface small · <strong>D</strong>epend on abstractions. Expect SOLID in any developer interview alongside design patterns.</div></div></div>
+</div>
+
+<div class="qa-card" id="q72">
+  <div class="q-header"><div class="q-num">72</div><div class="q-text">Write a <code>rightOfLastDot(str)</code> function that extracts the file extension from a filename string (the part after the final dot).</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">rightOfLastDot</span>(str) {
+  <span class="kw">const</span> i <span class="op">=</span> str.<span class="fn">lastIndexOf</span>(<span class="str">'.'</span>);
+  <span class="kw">return</span> i <span class="op">===</span> <span class="op">-</span><span class="num">1</span> <span class="op">?</span> <span class="str">''</span> <span class="op">:</span> str.<span class="fn">slice</span>(i <span class="op">+</span> <span class="num">1</span>);
+}
+
+<span class="fn">rightOfLastDot</span>(<span class="str">"my.file.name.txt"</span>);  <span class="cmt">// → "txt"</span>
+<span class="fn">rightOfLastDot</span>(<span class="str">"archive.tar.gz"</span>);    <span class="cmt">// → "gz"</span>
+<span class="fn">rightOfLastDot</span>(<span class="str">"readme"</span>);            <span class="cmt">// → ""  (no dot → safe empty string)</span></div>
+  <div class="answer-section">
+    <div class="answer-label">Answer — lastIndexOf + slice</div>
+    <div class="answer-text">
+      <code>lastIndexOf('.')</code> scans from the right and returns the index of the last dot, or <code>-1</code> if none exists. <code>slice(i + 1)</code> then grabs everything after it — the extension only, no dot.<br><br>
+      Why <code>lastIndexOf</code> instead of <code>indexOf</code>? Files like <code>archive.tar.gz</code> have multiple dots; you want only the final segment.
+      <div class="tip">💡 VB equivalent: <code>Mid$(f, InStrRev(f, ".") + 1)</code>. The JS pattern is cleaner — one method finds the dot index, the other slices from there. The <code>-1</code> guard is the critical defensive move; skip it and <code>slice(0)</code> returns the whole string instead of empty.</div>
+    </div>
+  </div>
+</div>
+
+<div class="qa-card" id="q73">
+  <div class="q-header"><div class="q-num">73</div><div class="q-text">Write a <code>right(str, n)</code> function — the JavaScript equivalent of VB's <code>Right$(str, n)</code> — that returns the last <em>n</em> characters of a string.</div></div>
+  <div class="code-inline"><span class="kw">function</span> <span class="fn">right</span>(str, n) {
+  <span class="kw">return</span> str.<span class="fn">slice</span>(<span class="op">-</span>n);
+}
+
+<span class="fn">right</span>(<span class="str">"Hello World"</span>, <span class="num">5</span>);   <span class="cmt">// → "World"</span>
+<span class="fn">right</span>(<span class="str">"Hello World"</span>, <span class="num">3</span>);   <span class="cmt">// → "rld"</span>
+<span class="fn">right</span>(<span class="str">"ABC"</span>, <span class="num">10</span>);           <span class="cmt">// → "ABC"  (n > length → whole string)</span>
+
+<span class="cmt">// Companion: left(str, n)</span>
+<span class="kw">function</span> <span class="fn">left</span>(str, n) {
+  <span class="kw">return</span> str.<span class="fn">slice</span>(<span class="num">0</span>, n);
+}
+<span class="fn">left</span>(<span class="str">"Hello World"</span>, <span class="num">5</span>);    <span class="cmt">// → "Hello"</span></div>
+  <div class="answer-section">
+    <div class="answer-label">Answer — slice(-n)</div>
+    <div class="answer-text">
+      <code>slice(-n)</code> is the key. A negative index in <code>slice()</code> counts from the end of the string — <code>slice(-5)</code> starts 5 characters before the end and runs to the finish. No loop, no length arithmetic needed.<br><br>
+      When <code>n</code> exceeds the string length, JS quietly returns the full string rather than throwing — same graceful behavior as VB's <code>Right$()</code>.
+      <div class="hall-of-shame"><div class="label">💣 JS Landmine</div><code>right("Hello", 0)</code> returns <code>"Hello"</code>, not <code>""</code>. <code>-0</code> is just <code>0</code>, so <code>slice(-0)</code> becomes <code>slice(0)</code> (the whole string). VB's <code>Right$(s, 0)</code> returns empty. Guard it: <code>return n &lt;= 0 ? "" : str.slice(-n);</code></div>
+      <div class="tip">💡 Personal library pair: <code>right(str, n)</code> uses <code>slice(-n)</code> · <code>left(str, n)</code> uses <code>slice(0, n)</code>. Both mirror their VB originals exactly. Combine with <code>rightOfLastDot()</code> from Q72 when working with filenames and you've replicated the whole VB string toolkit in three tidy functions.</div>
+    </div>
+  </div>
+</div>
+
+<div class="qa-card" id="q74">
+  <div class="q-header"><div class="q-num">74</div><div class="q-text">Why does <code>(0.1 + 0.2) === 0.3</code> return <code>false</code>, and what's the correct way to compare floating-point numbers?</div></div>
+  <div class="code-inline"><span class="cmt">// Step 1 — the classic trap</span>
+<span class="fn">console</span>.<span class="fn">log</span>((<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span>) <span class="op">===</span> <span class="num">0.3</span>);          <span class="cmt">// false — IEEE 754</span>
+
+<span class="cmt">// Step 2 — toFixed() looks right but returns a STRING</span>
+<span class="fn">console</span>.<span class="fn">log</span>((<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span>).<span class="fn">toFixed</span>(<span class="num">2</span>) <span class="op">===</span> <span class="num">0.3</span>);  <span class="cmt">// false — "0.30" !== 0.3</span>
+
+<span class="cmt">// Step 3 — correct: wrap in Number() so comparison is numeric</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="ty">Number</span>((<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span>).<span class="fn">toFixed</span>(<span class="num">2</span>)) <span class="op">===</span> <span class="num">0.3</span>); <span class="cmt">// true ✓</span>
+
+<span class="cmt">// Alternative — epsilon comparison (no string round-trip)</span>
+<span class="fn">console</span>.<span class="fn">log</span>(<span class="ty">Math</span>.<span class="fn">abs</span>((<span class="num">0.1</span> <span class="op">+</span> <span class="num">0.2</span>) <span class="op">-</span> <span class="num">0.3</span>) <span class="op">&lt;</span> <span class="ty">Number</span>.<span class="fn">EPSILON</span>); <span class="cmt">// true ✓</span></div>
+  <div class="answer-section">
+    <div class="answer-label">Answer — IEEE 754 &amp; the toFixed() String Trap</div>
+    <div class="answer-text">
+      JavaScript stores decimals as IEEE 754 double-precision floats. <code>0.1 + 0.2</code> is actually <code>0.30000000000000004</code> in memory — close, but not <code>0.3</code>.<br><br>
+      <strong>The two-step trap:</strong> <code>.toFixed(2)</code> rounds the display to <code>"0.30"</code> — but it returns a <strong>string</strong>, not a number. Comparing a string to a number with <code>===</code> is always <code>false</code>.<br><br>
+      <strong>Fix 1 — Number() + toFixed():</strong> <code>Number((0.1 + 0.2).toFixed(2)) === 0.3</code>. Mind the parens: <code>toFixed()</code> must be called on the float result <em>before</em> <code>Number()</code> wraps it.<br><br>
+      <strong>Fix 2 — epsilon comparison:</strong> <code>Math.abs(a - b) &lt; Number.EPSILON</code> checks whether the difference is smaller than the tiniest float gap near 1. No string round-trip. But <code>Number.EPSILON</code> is a fixed size, so it only works for numbers around 1: <code>1000.1 + 1000.2</code> vs <code>2000.3</code> is off by ~2e-13 and fails the test. For bigger numbers, scale it: <code>Math.abs(a - b) &lt; Number.EPSILON * Math.max(Math.abs(a), Math.abs(b))</code>, or pick a tolerance that fits the job (e.g. <code>0.001</code> for money in dollars).
+      <div class="hall-of-shame"><div class="label">💣 Paren Trap</div><code>console.log(Number(0.1 + 0.2).toFixed(2)) === 0.3)</code> — the <code>===</code> ends up <em>outside</em> the <code>console.log()</code> call: syntax error. Always: <code>Number(<strong>(</strong>0.1 + 0.2<strong>)</strong>.toFixed(2))</code> with inner parens forcing float addition first.</div>
+      <div class="tip">💡 <code>0.1 + 0.2</code> in binary is like writing ⅓ in decimal — it never terminates exactly. IEEE 754 gives you ~15 significant digits of precision, plenty for most work, but not for naive equality checks.</div>
+    </div>
+  </div>
+</div>
+
+<div class="qa-card" id="q75">
+  <div class="q-header"><div class="q-num">75</div><div class="q-text">What is strict mode, and where does <code>"use strict"</code> go?</div></div>
+  <div class="code-inline"><span class="str">"use strict"</span>;            <span class="cmt">// ✅ must be the FIRST statement in the file</span>
+
+x <span class="op">=</span> <span class="num">10</span>;                  <span class="cmt">// ❌ ReferenceError (sloppy mode: silent global)</span>
+
+<span class="kw">function</span> <span class="fn">show</span>() {
+    <span class="fn">console</span>.<span class="fn">log</span>( <span class="kw">this</span> );   <span class="cmt">// undefined (sloppy mode: window)</span>
+}
+<span class="fn">show</span>();
+
+<span class="kw">const</span> cfg <span class="op">=</span> <span class="ty">Object</span>.<span class="fn">freeze</span>( { port: <span class="num">3000</span> } );
+cfg.port <span class="op">=</span> <span class="num">80</span>;           <span class="cmt">// ❌ TypeError (sloppy mode: silently ignored)</span>
+
+<span class="cmt">// Function-level: first line of a function = strict for that function only</span>
+<span class="kw">function</span> <span class="fn">careful</span>() {
+    <span class="str">"use strict"</span>;
+    <span class="cmt">// ...</span>
+}
+
+<span class="cmt">// Automatic: ES modules (&lt;script type="module"&gt;) and class bodies</span>
+<span class="cmt">// are ALWAYS strict, no directive needed</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text"><strong>Strict mode</strong> is an opt-in, stricter version of JavaScript (added in ES5, 2009). It turns many of JS's <em>silent failures</em> into real errors: assigning to an undeclared variable throws instead of creating a global, writing to a frozen or read-only property throws instead of being ignored, duplicate parameter names are a SyntaxError, and <code>with</code> is banned. It also changes <code>this</code> in a plain function call (<code>show()</code>, no object in front) from <code>window</code> to <code>undefined</code>. It does <strong>not</strong> change top-level <code>this</code> in a script, and arrow functions are unaffected, since they never have their own <code>this</code> (see Q64).<br><br>
+<strong>Placement:</strong> <code>"use strict";</code> must be the <strong>very first statement</strong>, either at the top of the file (the whole script is strict) or the first line inside a function (just that function). Only comments and blank lines may come before it. Modules and classes are strict automatically, so most modern code runs strict without anyone writing the line.
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>Put <code>"use strict"</code> anywhere else (after another statement, halfway down the file) and it's just an unused string. No error, no warning, and strict mode is quietly <strong>off</strong>.</div>
+<div class="tip">💡 Quiz answers often assume strict mode without saying so. If an explanation says "undefined in strict mode", check whether the code is a regular function called on its own. That's the only place strict mode changes <code>this</code>.</div></div></div>
+</div>
+
+<div class="section-label">Session 3 — reduce deep-dive</div>
+
+<div class="qa-card" id="q76">
+  <div class="q-header"><div class="q-num">76</div><div class="q-text">What does <code>reduce()</code> actually do — and why does it always need a callback?</div></div>
+  <div class="code-inline"><span class="cmt">// reduce is a FOLD — not just summation</span>
+<span class="kw">const</span> nums <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>];
+
+<span class="cmt">// Reduce to a number</span>
+nums.<span class="fn">reduce</span>((a, b) <span class="op">=></span> a <span class="op">+</span> b);          <span class="cmt">// 10</span>
+nums.<span class="fn">reduce</span>((a, b) <span class="op">=></span> a <span class="op">*</span> b);          <span class="cmt">// 24</span>
+
+<span class="cmt">// Reduce to a string</span>
+[<span class="str">'a'</span>,<span class="str">'b'</span>,<span class="str">'c'</span>].<span class="fn">reduce</span>((a, b) <span class="op">=></span> a <span class="op">+</span> b);  <span class="cmt">// "abc"</span>
+
+<span class="cmt">// Reduce to an object</span>
+[<span class="str">'x'</span>,<span class="str">'y'</span>,<span class="str">'z'</span>].<span class="fn">reduce</span>((acc, val, i) <span class="op">=></span> {
+  acc[val] <span class="op">=</span> i; <span class="kw">return</span> acc;
+}, {}); <span class="cmt">// { x: 0, y: 1, z: 2 }</span>
+
+<span class="cmt">// Named callback — cleaner when logic is reused</span>
+<span class="kw">const</span> add <span class="op">=</span> (a, b) <span class="op">=></span> a <span class="op">+</span> b;
+nums.<span class="fn">reduce</span>(add);                      <span class="cmt">// 10 ✓</span>
+
+<span class="cmt">// DON'T DO THIS — references the method, doesn't call it</span>
+<span class="fn">console</span>.<span class="fn">log</span>(nums.<span class="fn">reduce</span>);             <span class="cmt">// ƒ reduce() { [native code] }</span></div>
+  <div class="answer-section">
+    <div class="answer-label">Answer</div>
+    <div class="answer-text">
+      <code>reduce()</code> is a <strong>fold function</strong> — it collapses an array into a single value of <em>any type</em> by applying a callback to each element. The callback IS the operation; without it, <code>reduce</code> has no idea what to do and throws a <code>TypeError</code>.
+      <div class="tip">💡 <strong>Initial value rule:</strong> omit it when the array is known non-empty (uses first element as seed, cleaner). Include <code>0</code> or <code>[]</code> or <code>{}</code> when the array could be empty — without an initial value, <code>reduce()</code> on an empty array throws.</div>
+      <div class="tip">💡 <strong>Named vs inline:</strong> <code>nums.reduce(add)</code> and <code>nums.reduce((a,b) => a+b)</code> are identical — the named version just moves the arrow function to a variable. You're still writing the callback either way.</div>
+      <div class="hall-of-shame"><div class="label">⚠️ Easy Mistake</div><code>arr.reduce</code> without <code>()</code> is just a reference to the method — you're looking at it, not calling it. You'll get <code>ƒ reduce() { [native code] }</code> printed instead of a result.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Session 4 — Udemy Intermediate quiz</div>
+
+<div class="qa-card" id="q77">
+  <div class="q-header"><div class="q-num">77</div><div class="q-text">What is the output? A method copied into a variable and called on its own</div></div>
+  <div class="code-inline"><span class="kw">const</span> person <span class="op">=</span> {
+    name: <span class="str">"John"</span>,
+    greet: <span class="kw">function</span>() {
+        <span class="fn">console</span>.<span class="fn">log</span>(<span class="str">`Hello, </span><span class="op">${</span><span class="kw">this</span>.name<span class="op">}</span><span class="str">`</span>);
+    }
+};
+
+<span class="kw">const</span> greet <span class="op">=</span> person.greet;   <span class="cmt">// copies the REFERENCE, not the object</span>
+<span class="fn">greet</span>();                     <span class="cmt">// nothing before the dot → plain call</span>
+
+<span class="cmt">// Browser, sloppy mode:  "Hello, "          (window.name is "")</span>
+<span class="cmt">// Node, sloppy mode:     "Hello, undefined"  (quiz answer)</span>
+<span class="cmt">// Strict mode:           TypeError — this is undefined</span>
+
+person.<span class="fn">greet</span>();              <span class="cmt">// "Hello, John" — person before the dot</span>
+
+<span class="cmt">// Fix: lock this to person with bind()</span>
+<span class="kw">const</span> bound <span class="op">=</span> person.greet.<span class="fn">bind</span>(person);
+<span class="fn">bound</span>();                     <span class="cmt">// "Hello, John" ✓</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">"Hello, undefined"</span> (quiz)</div><div class="answer-text"><code>this</code> is set by <strong>how a function is called</strong>, not where it was written. Functions are values, so <code>person</code> only holds a <em>reference</em> to <code>greet</code>; it doesn't own it. Copy that reference into a variable and call it bare, and the link to <code>person</code> is gone. In sloppy mode a plain call sets <code>this</code> to the global object; in strict mode <code>this</code> is <code>undefined</code>.
+<div class="tip">💡 Rule of thumb: look at the call site. <code>obj.fn()</code> → <code>this</code> is <code>obj</code>. <code>fn()</code> with nothing before the dot → global object (sloppy) or <code>undefined</code> (strict). Wrapping the code in another function changes nothing; only the call matters.</div>
+<div class="tip">💡 "Sloppy mode" is the common (unofficial) name for non-strict JavaScript. The spec just calls it <em>non-strict code</em>. See Q75 for strict mode.</div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>In a browser the output is <code>"Hello, "</code>, not <code>"Hello, undefined"</code>. <code>this</code> is <code>window</code>, and <code>window.name</code> is a real built-in property that defaults to an empty string. The quiz answer assumes an environment like Node with no global <code>name</code>. Same trap as passing <code>obj.method</code> to <code>setTimeout</code> or an event listener: the method gets detached from its object.</div></div></div>
+</div>
+
+<div class="qa-card" id="q78">
+  <div class="q-header"><div class="q-num">78</div><div class="q-text">Why does a <code>console.log</code> inside an object literal throw, and what happens when you destructure methods out of an object?</div></div>
+  <div class="code-inline"><span class="kw">const</span> obj <span class="op">=</span> {
+    a: <span class="num">1</span>,
+    <span class="fn">getA</span>() { <span class="kw">return</span> <span class="kw">this</span>.a; },
+    <span class="fn">console</span>.<span class="fn">log</span>( <span class="str">"hi"</span> );   <span class="cmt">// ❌ SyntaxError: Unexpected token '.'</span>
+};
+<span class="cmt">// Inside { } of an object literal, only  key: value  pairs and methods are allowed.</span>
+<span class="cmt">// JS reads "console" as a property name, then chokes on the dot.</span>
+
+<span class="cmt">// ✅ Statements go OUTSIDE, calling through the object:</span>
+<span class="fn">console</span>.<span class="fn">log</span>( <span class="str">"getA= "</span> <span class="op">+</span> obj.<span class="fn">getA</span>() );   <span class="cmt">// getA= 1</span>
+
+<span class="cmt">// Destructuring reads right to left: "from obj, pull out getA"</span>
+<span class="kw">const</span> { getA } <span class="op">=</span> obj;      <span class="cmt">// same as  const getA = obj.getA;</span>
+<span class="fn">getA</span>();                    <span class="cmt">// undefined (sloppy) / TypeError (strict)</span>
+obj.<span class="fn">getA</span>();                <span class="cmt">// 1 — obj before the dot</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">SyntaxError</span> then <span class="output-pill">undefined</span></div><div class="answer-text"><strong>Object literal ≠ code block.</strong> The braces of an object literal hold properties, not statements, so <code>console.log(...)</code>, <code>if</code>, loops and the like can't go there. Put them after the object and call the method as <code>obj.getA()</code>.<br><br>
+<strong>Destructuring a method detaches it.</strong> <code>const { getA } = obj</code> is shorthand for <code>const getA = obj.getA</code>: the left side is the <em>pattern</em> (names to pull out), the right side is the <em>source</em>. You get the function, but not its connection to <code>obj</code>, so a plain <code>getA()</code> call loses <code>this</code>, exactly like Q77.
+<div class="tip">💡 Need the destructured version to work? Bind first: <code>const getA = obj.getA.bind( obj );</code>. Or write the method without <code>this</code> (e.g. <code>getA: () =&gt; obj.a</code>) so there's nothing to lose.</div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>Destructuring <em>looks</em> like a harmless shortcut, and with plain values (<code>const { a } = obj</code>) it is. With methods that use <code>this</code>, it quietly breaks them. Watch for this in React and library code that destructures objects.</div></div></div>
+</div>
+
+<div class="qa-card" id="q79">
+  <div class="q-header"><div class="q-num">79</div><div class="q-text">Why can't <code>try/catch</code> catch an error thrown inside a <code>setTimeout</code> callback?</div></div>
+  <div class="code-inline"><span class="kw">try</span> {
+    <span class="fn">setTimeout</span>( () <span class="op">=></span> {
+        <span class="kw">throw</span> <span class="kw">new</span> <span class="ty">Error</span>( <span class="str">"Error!"</span> );   <span class="cmt">// ③ runs 1s later, on a FRESH call stack</span>
+    }, <span class="num">1000</span> );                          <span class="cmt">// ① only schedules the callback</span>
+} <span class="kw">catch</span> ( e ) {                         <span class="cmt">// ② try already finished, catch discarded</span>
+    <span class="fn">console</span>.<span class="fn">log</span>( <span class="str">"Caught:"</span>, e.message );
+}
+<span class="cmt">// → Uncaught Error: Error!</span>
+
+<span class="cmt">// ✅ Fix 1: try/catch INSIDE the callback</span>
+<span class="fn">setTimeout</span>( () <span class="op">=></span> {
+    <span class="kw">try</span> { <span class="kw">throw</span> <span class="kw">new</span> <span class="ty">Error</span>( <span class="str">"Error!"</span> ); }
+    <span class="kw">catch</span> ( e ) { <span class="fn">console</span>.<span class="fn">log</span>( <span class="str">"Caught:"</span>, e.message ); }
+}, <span class="num">1000</span> );
+
+<span class="cmt">// ✅ Fix 2: Promise + async/await keeps the try alive</span>
+<span class="kw">const</span> <span class="fn">wait</span> <span class="op">=</span> ( ms ) <span class="op">=></span> <span class="kw">new</span> <span class="ty">Promise</span>( ( resolve, reject ) <span class="op">=></span>
+    <span class="fn">setTimeout</span>( () <span class="op">=></span> <span class="fn">reject</span>( <span class="kw">new</span> <span class="ty">Error</span>( <span class="str">"Error!"</span> ) ), ms )
+);
+<span class="kw">async function</span> <span class="fn">run</span>() {
+    <span class="kw">try</span> { <span class="kw">await</span> <span class="fn">wait</span>( <span class="num">1000</span> ); }
+    <span class="kw">catch</span> ( e ) { <span class="fn">console</span>.<span class="fn">log</span>( <span class="str">"Caught:"</span>, e.message ); }   <span class="cmt">// Caught: Error!</span>
+}</div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">Uncaught Error</span></div><div class="answer-text"><code>setTimeout</code> doesn't run the function, it <strong>hands it to the browser</strong> and returns immediately. The <code>try</code> block finishes successfully and the <code>catch</code> is gone. A second later the event loop runs the callback on a <strong>brand-new call stack</strong> with no <code>try</code> around it (see Q57 on the event loop).<br><br>
+<strong>Fix 1:</strong> put the <code>try/catch</code> inside the callback, where the error actually happens. <strong>Fix 2:</strong> wrap the timer in a Promise and <code>await</code> it. <code>await</code> keeps the function paused <em>inside</em> its <code>try</code> until the promise settles, so the <code>catch</code> is still waiting when the error arrives.
+<div class="tip">💡 Shift-handover model: the task is left for the night crew, and when it fails at 3 AM, the day supervisor (the catch) went home hours ago. The handler has to travel with the task.</div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>Same trap with any callback-based async code: event listeners, <code>setInterval</code>, older Node APIs. An outer <code>try/catch</code> only covers code that runs <em>synchronously</em> inside it.</div></div></div>
+</div>
+
+<div class="qa-card" id="q80">
+  <div class="q-header"><div class="q-num">80</div><div class="q-text">Inside an <code>async</code> function with <code>try/catch</code>, how do you know if an awaited promise was fulfilled or rejected?</div></div>
+  <div class="code-inline"><span class="kw">async function</span> <span class="fn">asyncFunc</span>() {
+    <span class="kw">try</span> {
+        <span class="kw">const</span> result <span class="op">=</span> <span class="kw">await</span> <span class="ty">Promise</span>.<span class="fn">reject</span>( <span class="str">"Failed"</span> );
+        <span class="cmt">// ✅ FULFILLED → result holds the value, next line runs</span>
+        <span class="kw">return</span> <span class="str">"Success"</span>;
+    } <span class="kw">catch</span> ( error ) {
+        <span class="cmt">// ❌ REJECTED → the await line throws, jump straight here</span>
+        <span class="kw">return</span> <span class="str">"Caught: "</span> <span class="op">+</span> error;
+    }
+}
+<span class="fn">asyncFunc</span>().<span class="fn">then</span>( <span class="fn">console</span>.log );   <span class="cmt">// "Caught: Failed" (outer promise FULFILLED!)</span>
+
+<span class="cmt">// Let the caller know it failed: re-throw inside the catch block</span>
+<span class="kw">catch</span> ( error ) { <span class="kw">throw</span> error; }   <span class="cmt">// outer promise now REJECTS → caller's .catch() fires</span>
+
+<span class="cmt">// Ask for a status report: Promise.allSettled</span>
+<span class="kw">const</span> [ r ] <span class="op">=</span> <span class="kw">await</span> <span class="ty">Promise</span>.<span class="fn">allSettled</span>( [ <span class="ty">Promise</span>.<span class="fn">reject</span>( <span class="str">"Failed"</span> ) ] );
+<span class="cmt">// { status: "rejected", reason: "Failed" }  or  { status: "fulfilled", value: … }</span>
+
+<span class="cmt">// Real code: the promise settles later, when the answer arrives</span>
+<span class="kw">const</span> res <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>( <span class="str">"/api/lummox-species"</span> );
+<span class="kw">if</span> ( <span class="op">!</span>res.ok ) <span class="kw">throw</span> <span class="kw">new</span> <span class="ty">Error</span>( <span class="str">"HTTP "</span> <span class="op">+</span> res.status );   <span class="cmt">// a 404 doesn't reject (Q54)</span></div>
+  <div class="answer-section"><div class="answer-label">Answer: <span class="output-pill">"Caught: Failed"</span></div><div class="answer-text"><strong><code>await</code> is the switch.</strong> You don't query the promise: if execution reaches the line <em>after</em> the <code>await</code>, it was fulfilled and the variable holds the value. If it was rejected, the <code>await</code> line <strong>throws</strong> and control jumps to <code>catch</code>, where <code>error</code> holds the rejection reason. The <code>try/catch</code> <em>is</em> the test.<br><br>
+<strong>The twist:</strong> <code>asyncFunc()</code> itself comes back <strong>fulfilled</strong> with <code>"Caught: Failed"</code>. Returning a value from <code>catch</code> marks the rejection as handled, so the outside world sees success. Re-throw if the caller needs to know, or use <code>Promise.allSettled</code> to get a <code>{ status, value / reason }</code> report for each promise without one failure stopping the rest.
+<div class="tip">💡 <code>Promise.reject("Failed")</code> is a quiz shortcut: a promise that has already failed before you await it. In real code the promise comes from work still in progress (<code>fetch</code>, a timer, a file read), and <em>that</em> work decides fulfilled or rejected when it finishes.</div>
+<div class="tip">💡 Uplink model: you send the request and stay on the line. The far end replies "carrier up" (fulfilled, with the data) or "link failed" (rejected, with the reason). <code>await</code> is you waiting for one of those two replies.</div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div>A <code>catch</code> that returns a value <strong>swallows</strong> the error: the caller's <code>.catch()</code> never fires. Pair with Q79, the <code>try/catch</code> that <em>can't</em> catch (setTimeout callback); this one <em>can</em>, because <code>await</code> keeps the function paused inside the <code>try</code>.</div></div></div>
+</div>
+
+<div class="qa-card" id="q81">
+  <div class="q-header"><div class="q-num">81</div><div class="q-text">How do a Map, a plain object and an array of pairs look in the console, and which brackets go where?</div></div>
+  <div class="code-inline"><span class="cmt">// BUILD a Map: square brackets, an array of [key, value] pairs</span>
+<span class="kw">const</span> map <span class="op">=</span> <span class="kw">new</span> <span class="ty">Map</span>( [ [ <span class="str">"a"</span>, <span class="num">1</span> ], [ <span class="str">"b"</span>, <span class="num">2</span> ] ] );
+
+<span class="fn">console</span>.<span class="fn">log</span>( map );
+<span class="cmt">// Map(2) { 'a' =&gt; 1, 'b' =&gt; 2 }      ← curly braces, arrows, size up front</span>
+
+<span class="kw">const</span> obj <span class="op">=</span> { a: <span class="num">1</span>, b: <span class="num">2</span> };
+<span class="fn">console</span>.<span class="fn">log</span>( obj );                  <span class="cmt">// { a: 1, b: 2 }   ← curly braces, colons</span>
+
+<span class="fn">console</span>.<span class="fn">log</span>( [ <span class="op">...</span>map ] );           <span class="cmt">// [ [ 'a', 1 ], [ 'b', 2 ] ]  ← array of pairs</span>
+<span class="fn">console</span>.<span class="fn">log</span>( <span class="ty">Object</span>.<span class="fn">fromEntries</span>( map ) );   <span class="cmt">// { a: 1, b: 2 }   Map → object</span>
+<span class="kw">new</span> <span class="ty">Map</span>( <span class="ty">Object</span>.<span class="fn">entries</span>( obj ) );          <span class="cmt">// object → Map</span>
+
+<span class="cmt">// ❌ [ a: 1, b: 2 ]  is not valid anywhere: SyntaxError</span></div>
+  <div class="answer-section"><div class="answer-label">Answer</div><div class="answer-text">You <strong>build</strong> a Map from square-bracket <code>[key, value]</code> pairs, but the console <strong>displays</strong> it in curly braces with <code>=&gt;</code> arrows and the size in front: <code>Map(2) { 'a' =&gt; 1, 'b' =&gt; 2 }</code>. A plain object shows colons: <code>{ a: 1, b: 2 }</code>. Spreading a Map (<code>[...map]</code>) or calling <code>Object.entries(obj)</code> gives an array of pairs: <code>[ [ 'a', 1 ], [ 'b', 2 ] ]</code>.
+<div class="tip">💡 Console ID guide: <strong>colon</strong> → plain object · <strong>arrow + size</strong> → Map · <strong>nested square brackets</strong> → array of pairs. <code>Object.entries()</code> and <code>Object.fromEntries()</code> convert between the forms.</div>
+<div class="tip">💡 Object or Map? Neither is "more idiomatic"; they do different jobs. If you'd type the keys yourself in the code (a record, a config, JSON) → <strong>object</strong>. If the keys come from data at runtime, aren't strings, or get added and removed a lot, or you need <code>.size</code> → <strong>Map</strong>. See Q17 for the full comparison.</div>
+<div class="hall-of-shame"><div class="label">💣 JS Landmine</div><code>JSON.stringify( map )</code> gives <code>"{}"</code>: a Map's entries aren't properties, so they're silently dropped. Convert first: <code>JSON.stringify( Object.fromEntries( map ) )</code>.</div></div></div>
+</div>
+
+<hr class="section-divider">
+
+<div class="section-label">Quick Reference Cheatsheets</div>
+
+<div class="cheatsheet" id="solid">
+  <h3>SOLID Principles — Breakdown</h3>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">S</span> Single Responsibility Principle</div>
+    <div class="solid-desc">A function, class or module should do <strong>one job</strong> and have only one reason to change.</div>
+    <div class="code-inline"><span class="cmt">// ❌ one function deals, scores AND draws the screen</span>
+<span class="kw">function</span> <span class="fn">playHand</span>() { <span class="cmt">/* deal + score + render */</span> }
+
+<span class="cmt">// ✅ one job each</span>
+<span class="kw">function</span> <span class="fn">dealCard</span>()      { <span class="cmt">/* ... */</span> }
+<span class="kw">function</span> <span class="fn">scoreHand</span>( hand ) { <span class="cmt">/* ... */</span> }
+<span class="kw">function</span> <span class="fn">renderHand</span>( hand ) { <span class="cmt">/* ... */</span> }</div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">O</span> Open-Closed Principle</div>
+    <div class="solid-desc">Code should be <strong>open for extension, closed for modification</strong>. Add new behavior by adding code, not by editing working code.</div>
+    <div class="code-inline"><span class="cmt">// ✅ new payout? add a row, don't touch the logic</span>
+<span class="kw">const</span> payouts <span class="op">=</span> { blackjack: <span class="num">1.5</span>, win: <span class="num">1</span>, push: <span class="num">0</span> };
+
+<span class="kw">function</span> <span class="fn">pay</span>( result, bet ) {
+    <span class="kw">return</span> bet <span class="op">*</span> payouts[ result ];
+}</div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">L</span> Liskov Substitution Principle</div>
+    <div class="solid-desc">A subclass must be usable <strong>anywhere its parent is used</strong>, without breaking anything. If it swaps in and surprises the caller, the design is wrong.</div>
+    <div class="code-inline"><span class="kw">class</span> <span class="ty">Bird</span>    { <span class="fn">move</span>() { <span class="kw">return</span> <span class="str">"flies"</span>; } }
+<span class="kw">class</span> <span class="ty">Penguin</span> <span class="kw">extends</span> <span class="ty">Bird</span> {
+    <span class="fn">move</span>() { <span class="kw">throw</span> <span class="kw">new</span> <span class="ty">Error</span>( <span class="str">"can't fly"</span> ); }  <span class="cmt">// ❌ breaks callers</span>
+}
+<span class="cmt">// ✅ fix: Penguin's move() returns "swims", same contract</span></div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">I</span> Interface Segregation Principle</div>
+    <div class="solid-desc">Don't force code to depend on methods it <strong>doesn't use</strong>. Many small, focused interfaces beat one giant one.</div>
+    <div class="code-inline"><span class="cmt">// ❌ every player object must have deal(), shuffle(), payout()</span>
+<span class="cmt">// ✅ split by role: the Dealer gets deal/shuffle,</span>
+<span class="cmt">//    the Player only needs hit/stand</span></div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">D</span> Dependency Inversion Principle</div>
+    <div class="solid-desc">High-level code should depend on <strong>abstractions</strong>, not on specific low-level details. In JS this usually means <strong>passing dependencies in</strong> instead of hard-coding them.</div>
+    <div class="code-inline"><span class="cmt">// ❌ hard-wired to localStorage</span>
+<span class="kw">function</span> <span class="fn">saveBalance</span>( bal ) { localStorage.<span class="fn">setItem</span>( <span class="str">"bal"</span>, bal ); }
+
+<span class="cmt">// ✅ storage is passed in — swap for a test fake or a server</span>
+<span class="kw">function</span> <span class="fn">saveBalance</span>( bal, storage ) { storage.<span class="fn">save</span>( <span class="str">"bal"</span>, bal ); }</div>
+  </div>
+
+  <div class="tip">💡 Interview one-liner: "SOLID keeps code easy to change. Each piece does one job, grows without being rewritten, swaps cleanly, asks only for what it needs, and gets its dependencies handed to it."</div>
+</div>
+
+<div class="cheatsheet" id="tracing-this">
+  <h3>Tracing <code>this</code> — Find the Call Site</h3>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">0</span> Inside an arrow function?</div>
+    <div class="solid-desc">Arrows have <strong>no <code>this</code> of their own</strong>. Go out to the nearest enclosing <strong>regular</strong> function (or the top level) and run the checklist on <em>that</em> function instead.</div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">1</span> Find the parentheses that run it</div>
+    <div class="solid-desc">Look at where the function is <strong>called</strong>, not where it's <strong>written</strong>. If it's handed off without <code>()</code> (<code>setTimeout(fn)</code>, <code>arr.forEach(fn)</code>), the call happens in code you can't see: treat it as a plain call. One exception: <code>addEventListener</code> sets <code>this</code> to the element.</div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">2</span> Read the call, top to bottom. The first match wins</div>
+    <div class="code-inline">Where is `this` used?
+        │
+        ▼
+Inside an ARROW function? ──yes──► go out to the enclosing
+        │ no                       regular function, start again
+        ▼
+Find the CALL: the ( ) that run it
+        │
+        ├─ new Fn()                     → this = brand-new object
+        ├─ fn.call(x) / fn.apply(x)
+        │  or fn made by .bind(x)       → this = x
+        ├─ thing.fn()                   → this = thing  (left of the LAST dot)
+        └─ fn()   nothing left of dot   → window (sloppy) / undefined (strict)</div>
+  </div>
+
+  <div class="solid-row">
+    <div class="solid-name"><span class="solid-letter">✓</span> Worked examples from the sheet</div>
+    <div class="code-inline">obj.<span class="fn">greet</span>();              <span class="cmt">// left of dot: obj           → this = obj ✓</span>
+<span class="fn">greet</span>();                  <span class="cmt">// Q77: nothing left of dot    → window / undefined</span>
+<span class="kw">const</span> { getA } <span class="op">=</span> obj;
+<span class="fn">getA</span>();                   <span class="cmt">// Q78: same thing, bare call  → window / undefined</span>
+a.b.c.<span class="fn">fn</span>();               <span class="cmt">// left of the LAST dot        → this = a.b.c</span>
+
+<span class="fn">setTimeout</span>( <span class="kw">function</span> () {  <span class="cmt">// called by setTimeout, bare</span>
+    <span class="kw">this</span>.count<span class="op">++</span>;          <span class="cmt">// → window. NaN</span>
+}, <span class="num">100</span> );
+
+<span class="fn">setTimeout</span>( () <span class="op">=&gt;</span> {        <span class="cmt">// arrow → step 0: go out to increment(),</span>
+    <span class="kw">this</span>.count<span class="op">++</span>;          <span class="cmt">// called as obj.increment()</span>
+}, <span class="num">100</span> );                  <span class="cmt">// → this = obj ✓</span></div>
+  </div>
+
+  <div class="tip">💡 Short version: <strong>point at the parentheses, look left of the dot.</strong> Whatever sits immediately left of the last dot is <code>this</code>. Nothing there? Global object (sloppy) or <code>undefined</code> (strict, see Q75).</div>
+  <div class="tip">💡 Teleport model: a function is a phone number, and <code>this</code> is the caller ID. Writing the number on John's card doesn't make John the caller; what matters is who's dialing when it rings. Copy the number to a sticky note and dial it yourself (<code>greet()</code>), and the caller ID shows the switchboard (<code>window</code>).</div>
+  <div class="tip">💡 When in doubt: put <code>console.log( this )</code> as the first line of the function and check F12. The browser has the final say. Related cards: Q53, Q64, Q77, Q78.</div>
+</div>
+
+<div class="cheatsheet">
+  <h3>Array Methods</h3>
+  <div class="cs-grid">
+    <div class="cs-row"><span class="cs-code">.map(fn)</span><span class="cs-desc">transform each element → new array</span></div>
+    <div class="cs-row"><span class="cs-code">.filter(fn)</span><span class="cs-desc">keep elements where fn returns true</span></div>
+    <div class="cs-row"><span class="cs-code">.reduce(fn, init)</span><span class="cs-desc">fold array to single value</span></div>
+    <div class="cs-row"><span class="cs-code">.find(fn)</span><span class="cs-desc">first element where fn is true</span></div>
+    <div class="cs-row"><span class="cs-code">.findIndex(fn)</span><span class="cs-desc">index of first match</span></div>
+    <div class="cs-row"><span class="cs-code">.some(fn)</span><span class="cs-desc">true if ANY element passes</span></div>
+    <div class="cs-row"><span class="cs-code">.every(fn)</span><span class="cs-desc">true if ALL elements pass</span></div>
+    <div class="cs-row"><span class="cs-code">.flat(depth)</span><span class="cs-desc">flatten nested arrays</span></div>
+    <div class="cs-row"><span class="cs-code">.flatMap(fn)</span><span class="cs-desc">map then flatten one level</span></div>
+    <div class="cs-row"><span class="cs-code">.forEach(fn)</span><span class="cs-desc">iterate, no return value</span></div>
+    <div class="cs-row"><span class="cs-code">.includes(val)</span><span class="cs-desc">contains value?</span></div>
+    <div class="cs-row"><span class="cs-code">.indexOf(val)</span><span class="cs-desc">first index of value (-1 if missing)</span></div>
+    <div class="cs-row"><span class="cs-code">.slice(s, e)</span><span class="cs-desc">copy portion (non-mutating)</span></div>
+    <div class="cs-row"><span class="cs-code">.splice(i, n)</span><span class="cs-desc">remove/insert at index (mutating)</span></div>
+    <div class="cs-row"><span class="cs-code">.sort(fn)</span><span class="cs-desc">sort in place (mutating!)</span></div>
+    <div class="cs-row"><span class="cs-code">.reverse()</span><span class="cs-desc">reverse in place (mutating)</span></div>
+    <div class="cs-row"><span class="cs-code">.concat(arr)</span><span class="cs-desc">merge arrays → new array</span></div>
+    <div class="cs-row"><span class="cs-code">.join(sep)</span><span class="cs-desc">array → string</span></div>
+    <div class="cs-row"><span class="cs-code">.push/pop</span><span class="cs-desc">add/remove at end (mutating)</span></div>
+    <div class="cs-row"><span class="cs-code">.shift/unshift</span><span class="cs-desc">remove/add at start (mutating)</span></div>
+  </div>
+</div>
+
+<div class="cheatsheet">
+  <h3>Async Patterns</h3>
+  <div class="cs-grid">
+    <div class="cs-row"><span class="cs-code">Promise.resolve(v)</span><span class="cs-desc">wrap value in resolved promise</span></div>
+    <div class="cs-row"><span class="cs-code">Promise.reject(e)</span><span class="cs-desc">wrap in rejected promise</span></div>
+    <div class="cs-row"><span class="cs-code">Promise.all(arr)</span><span class="cs-desc">all resolve → array; any reject → reject</span></div>
+    <div class="cs-row"><span class="cs-code">Promise.allSettled(arr)</span><span class="cs-desc">all results even if some fail</span></div>
+    <div class="cs-row"><span class="cs-code">Promise.race(arr)</span><span class="cs-desc">first to settle wins</span></div>
+    <div class="cs-row"><span class="cs-code">Promise.any(arr)</span><span class="cs-desc">first to RESOLVE wins (ignores rejects)</span></div>
+    <div class="cs-row"><span class="cs-code">async function</span><span class="cs-desc">always returns a Promise</span></div>
+    <div class="cs-row"><span class="cs-code">await expr</span><span class="cs-desc">pause until promise resolves</span></div>
+    <div class="cs-row"><span class="cs-code">try/catch</span><span class="cs-desc">catch rejected promises with await</span></div>
+  </div>
+</div>
+
+<div class="cheatsheet">
+  <h3>Type Coercion Quick-Ref</h3>
+  <div class="cs-grid">
+    <div class="cs-row"><span class="cs-code">Boolean(0)</span><span class="cs-desc">false — 0, "", null, undefined, NaN, false are falsy</span></div>
+    <div class="cs-row"><span class="cs-code">Boolean([])</span><span class="cs-desc">true — arrays (even empty) are truthy</span></div>
+    <div class="cs-row"><span class="cs-code">Boolean({})</span><span class="cs-desc">true — objects (even empty) are truthy</span></div>
+    <div class="cs-row"><span class="cs-code">Number("")</span><span class="cs-desc">0</span></div>
+    <div class="cs-row"><span class="cs-code">Number("3")</span><span class="cs-desc">3</span></div>
+    <div class="cs-row"><span class="cs-code">Number(null)</span><span class="cs-desc">0</span></div>
+    <div class="cs-row"><span class="cs-code">Number(undefined)</span><span class="cs-desc">NaN</span></div>
+    <div class="cs-row"><span class="cs-code">Number(true)</span><span class="cs-desc">1</span></div>
+    <div class="cs-row"><span class="cs-code">String(null)</span><span class="cs-desc">"null"</span></div>
+    <div class="cs-row"><span class="cs-code">[] + []</span><span class="cs-desc">""</span></div>
+    <div class="cs-row"><span class="cs-code">{} + []</span><span class="cs-desc">0 (parsed as block + unary +)</span></div>
+  </div>
+</div>
+
+</div><!-- end .cards -->
+
+<div class="page-footer">
+  JavaScript Study Sheet · 81 Questions · github.com/Blackbirdx61
+</div>
+
+</body>
+</html>
+
+</body></html>
